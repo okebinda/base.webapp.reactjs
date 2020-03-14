@@ -1,0 +1,140 @@
+{
+  "en": {
+    "translation": {
+      "app_name": "App Name",
+      "copyright": "©2020 Company Name",
+
+      "route_login": "Sign In",
+      "route_password_reset_request": "Password Reset Request",
+      "route_password_reset": "Password Reset",
+      "route_dashboard": "Dashboard",
+      "route_user_account": "User Account",
+      "route_register_step1": "Register Step 1",
+      "route_register_step2": "Register Step 2",
+
+      "menu_item_dashboard": "Dashboard",
+      "menu_item_user_account": "User Account",
+      "menu_item_logout": "Logout",
+
+      "login_screen_title": "Sign In",
+
+      "login_form_input_username": "Username",
+      "login_form_input_password": "Password",
+      "login_form_input_remember": "Remember me",
+      "login_form_button_submit": "Login",
+      "login_form_message_failure": "Could not log in.",
+      "login_form_button_forgot_password": "Forgot password?",
+      "login_form_link_register": "Register",
+      "login_form_text_register": "if you don't have account",
+
+      "password_reset_screen_title": "Reset Password",
+      "password_reset_screen_form1_header": "Step 1 of 2",
+      "password_reset_screen_form2_header": "Step 2 of 2",
+      "password_reset_screen_instructions": "Enter the email address associated with your account and we will send you an email with instructions for resetting your password.",
+
+      "password_reset_form_steps_step1_title": "Request",
+      "password_reset_form_steps_step1_description": "Request an email with a reset code.",
+      "password_reset_form_steps_step2_title": "Reset",
+      "password_reset_form_steps_step2_description": "Use the emailed reset code to choose a new password.",
+
+      "password_reset_request_form_input_email_address": "Email Address",
+      "password_reset_request_form_button_submit": "Submit",
+      "password_reset_request_form_button_submit_in_process": "Submit",
+      "password_reset_request_form_link_have_code": "Already have a code?",
+      "password_reset_request_form_message_success": "Check your email inbox.",
+      "password_reset_request_form_message_failure": "Could not complete request.",
+
+      "password_reset_form_input_email_address": "Email Address",
+      "password_reset_form_input_code": "Reset Code",
+      "password_reset_form_input_password1": "New Password",
+      "password_reset_form_input_password2": "Confirm Password",
+      "password_reset_form_button_submit": "Submit",
+      "password_reset_form_button_submit_in_process": "Submit",
+      "password_reset_form_link_need_code": "Need a new code?",
+      "password_reset_form_message_success": "Password reset.",
+      "password_reset_form_message_failure": "Could not update password.",
+
+      "register_screen_title": "Register",
+      "register_screen_form1_header": "Step 1 of 2",
+      "register_screen_form2_header": "Step 2 of 2",
+
+      "register_form1_input_username": "Username",
+      "register_form1_input_email_address": "Email Address",
+      "register_form1_input_password1": "Password",
+      "register_form1_input_password2": "Confirm Password",
+      "register_form1_input_tos": "I Agree to the Terms of Service",
+      "register_form1_button_submit": "Submit",
+      "register_form1_button_submit_in_process": "Submiting",
+      "register_form1_button_tos": "Read the Terms of Service",
+      "register_form1_message_failure": "Registration error.",
+      "register_form1_tooltip_password": "Password must be at least 8 characters long and meet 3 out of 4 of the following conditions: one uppercase character; one lowercase character; one number; one non-alphanumeric character.",
+      
+      "register_form2_input_first_name": "First Name",
+      "register_form2_input_last_name": "Last Name",
+      "register_form2_button_submit": "Submit",
+      "register_form2_button_submit_in_process": "Submiting",
+      "register_form2_message_success": "Registration success.",
+      "register_form2_message_failure": "Registration error.",
+
+      "register_form_steps_step1_title": "Account",
+      "register_form_steps_step1_description": "Create your login credentials.",
+      "register_form_steps_step2_title": "Profile",
+      "register_form_steps_step2_description": "Update your profile information.",
+
+      "terms_of_service_title": "Terms of Service",
+      "terms_of_service_link": "Read the Terms of Service",
+
+      "user_account_form_title": "Account Settings",
+      "user_account_form_header_account": "Account Info",
+      "user_account_form_header_profile": "Profile Info",
+      "user_account_form_input_username": "Username",
+      "user_account_form_input_email_address": "Email Address",
+      "user_account_form_input_first_name": "First Name",
+      "user_account_form_input_last_name": "Last Name",
+      "user_account_form_button_submit": "Submit",
+      "user_account_form_button_submit_in_process": "Submiting",
+      "user_account_form_message_success": "Account updated.",
+      "user_account_form_message_failure": "Could not update account.",
+
+      "password_form_title": "Update Password",
+      "password_form_input_previous_password": "Current Password",
+      "password_form_input_password1": "New Password",
+      "password_form_input_password2": "Confirm New Password",
+      "password_form_button_submit": "Submit",
+      "password_form_button_submit_in_process": "Submiting",
+      "password_form_message_success": "Password updated.",
+      "password_form_message_failure": "Could not update password.",
+      "password_form_tooltip_password": "Password must be at least 8 characters long and meet 3 out of 4 of the following conditions: one uppercase character; one lowercase character; one number; one non-alphanumeric character.",
+
+      "session_timeout_modal_title": "Session Timeout Warning",
+      "session_timeout_modal_body": "Your session will automatically timeout in {{countdown}} seconds.",
+      "session_timeout_modal_signout": "Sign out",
+      "session_timeout_modal_extend": "Stay logged in",
+
+      "confirm_alert_logout_title": "Confirm Logout",
+      "confirm_alert_logout_body": "Are you sure you want to logout?",
+
+      "action_close": "Close",
+
+      "confirm_alert_yes": "Yes",
+      "confirm_alert_cancel": "Cancel",
+
+      "feedback_loading": "Loading...",
+      "feedback_form_success": "The form has been successfully submitted.",
+      "feedback_form_error": "There was a problem submitting the form.",
+
+      "feedback_validation_required": "Missing data for required field.",
+      "feedback_validation_email": "Not a valid email address.",
+      "feedback_validation_length": "Value must be between {{min}} and {{max}} characters long.",
+      "feedback_validation_range": "Value must be between {{min}} and {{max}}.",
+      "feedback_validation_not_number": "Value must not be a number.",
+      "feedback_validation_number": "Value must be a number.",
+      "feedback_validation_alphanumeric": "Value must contain only alphanumeric characters and the underscore.",
+      "feedback_validation_password_complexity": "Please choose a more complex password.",
+      "feedback_validation_password_match": "Passwords must match.",
+      "feedback_validation_format": "Incorrect format.",
+      "feedback_validation_url": "Value must be a URL.",
+      "feedback_validation_tos": "Please agree to the Terms of Service."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__
+.cache
+.idea/
+.vscode/
+.vagrant/
+application/env/
+application/node_modules/
+application/build/
+npm-debug.log
+ubuntu-bionic-18.04-cloudimg-console.log

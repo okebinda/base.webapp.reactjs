@@ -1,0 +1,68 @@
+{
+  "name": "base.webapp.reactjs",
+  "version": "0.1.0",
+  "description": "Base Web App for a REST API",
+  "author": "Kevin Chevalier",
+  "copyright": "Copyright 2020 Kevin Chevalier",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:okebinda/base.webapp.reactjs.git"
+  },
+  "dependencies": {
+    "antd": "3.26.13",
+    "axios": "0.19.2",
+    "core-js": "3.6.4",
+    "dateformat": "3.0.3",
+    "format-currency": "1.0.0",
+    "i18next": "19.3.2",
+    "immutable": "4.0.0-rc.12",
+    "node-sass": "4.13.1",
+    "normalizr": "3.6.0",
+    "react": "16.13.0",
+    "react-dom": "16.13.0",
+    "react-helmet": "5.2.1",
+    "react-i18next": "11.3.3",
+    "react-redux": "7.2.0",
+    "react-router-config": "5.1.1",
+    "react-router-dom": "5.1.2",
+    "redux": "4.0.5",
+    "redux-thunk": "2.3.0",
+    "winston": "3.2.1"
+  },
+  "devDependencies": {
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2",
+    "react-test-renderer": "16.13.0",
+    "react-scripts": "3.4.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:cov": "react-scripts test --coverage",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "eject": "react-scripts eject",
+    "touch": "find ./src -exec touch {} \\;"
+  },
+  "bugs": {
+    "url": "https://github.com/okebinda/base.webapp.reactjs/issues"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 9",
+    "not op_mini all"
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!**/*index.js",
+      "!src/serviceWorker.js",
+      "!src/polyfill.js"
+    ]
+  }
+}

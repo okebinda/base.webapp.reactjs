@@ -1,0 +1,93 @@
+.ant-layout-sider {
+  overflow: auto;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.main-nav-controls {
+  display: none;
+}
+
+.mobile-nav-controls h1 {
+  font-size: 24px;
+  margin-left: 16px;
+}
+
+.ant-layout-header {
+  background: #fff;
+  padding: 0 10px 0 0;
+}
+
+.ant-layout-header .trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 4px 0 0 16px;;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.ant-layout-header .trigger:hover {
+  color: #1890ff;
+}
+
+.ant-layout-sider-children .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
+.ant-drawer-body .ant-menu {
+  border-right: none;
+}
+
+.ant-drawer-body .ant-menu .ant-menu-item {
+  padding-left: 0;
+}
+
+.ant-layout-content {
+  margin: 0 16px;
+}
+
+.ant-breadcrumb {
+  margin: 16px 0;
+}
+
+#content-main {
+  height: 100%;
+  min-height: 360px;
+}
+
+.ant-layout-footer {
+  text-align: center;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .ant-layout-sider {
+    display: block;
+  }
+  .main-nav-controls {
+    display: block;
+  }
+  .mobile-nav-controls {
+    display: none;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}
