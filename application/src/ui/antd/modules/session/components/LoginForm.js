@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Form, Input, Button, Checkbox} from 'antd';
+import {Input, Button, Checkbox} from 'antd';
+import {Form as LegacyForm} from '@ant-design/compatible';
 
 import Logger from '../../../../../lib/Logger';
 import Config from '../../../../../Config';
@@ -66,23 +67,23 @@ class LoginForm extends Component {
     return (
       <Translation>{(t) => 
         <div>
-          <Form layout="vertical" hideRequiredMark onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" hideRequiredMark onSubmit={this.handleSubmit}>
 
-            <Form.Item label={t('login_form_input_username')}>
+            <LegacyForm.Item label={t('login_form_input_username')}>
               {form.getFieldDecorator('username', {
                 initialValue: '',
                 rules: [{ required: true, message: t('feedback_validation_required') }],
               })(<Input autoFocus />)}
-            </Form.Item>
+            </LegacyForm.Item>
 
-            <Form.Item label={t('login_form_input_password')}>
+            <LegacyForm.Item label={t('login_form_input_password')}>
               {form.getFieldDecorator('password', {
                 initialValue: '',
                 rules: [{ required: true, message: t('feedback_validation_required') }],
               })(<Input.Password />)}
-            </Form.Item>
+            </LegacyForm.Item>
 
-            <Form.Item>
+            <LegacyForm.Item>
               {form.getFieldDecorator('remember', {
                 valuePropName: 'checked',
                 initialValue: true,
@@ -93,7 +94,7 @@ class LoginForm extends Component {
               >
                 {t('login_form_button_forgot_password')}
               </Link>
-            </Form.Item>
+            </LegacyForm.Item>
 
             <div className="form-actions">
 
@@ -117,7 +118,7 @@ class LoginForm extends Component {
               
             </div>
 
-          </Form>
+          </LegacyForm>
         </div>
       }</Translation>
     )
@@ -138,7 +139,7 @@ class LoginForm extends Component {
   }
 }
 
-const WrappedLoginForm = Form.create({ name: 'login_form' })(LoginForm);
+const WrappedLoginForm = LegacyForm.create({ name: 'login_form' })(LoginForm);
 export default WrappedLoginForm;
 
 Logger.log('silly', `LoginForm loaded.`);

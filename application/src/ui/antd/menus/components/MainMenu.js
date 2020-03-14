@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Icon, Menu} from 'antd';
+import {Menu} from 'antd';
+import {Icon as LegacyIcon} from '@ant-design/compatible';
 import {Translation} from 'react-i18next';
 
 import {pathTo, hasRoute, getRouteFromPath} from '../../Routes';
@@ -41,7 +42,7 @@ function MainMenu(props) {
           x => hasRoute(x.screen)
             ? <Menu.Item key={x.key}>
                 <Link to={pathTo(x.screen)}>
-                  <Icon type={x.icon} />
+                  <LegacyIcon type={x.icon} />
                   <span>{t(x.title)}</span>
                 </Link>
               </Menu.Item>

@@ -2,7 +2,8 @@ import React, {Component, createRef} from 'react';
 import {Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Button, Form, Input} from 'antd';
+import {Button, Input} from 'antd';
+import {Form as LegacyForm} from '@ant-design/compatible';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -120,10 +121,10 @@ class RegisterStep2Form extends Component {
       <Translation>{(t) =>
         <div className="register-form register-form-step2" ref={this.formTop}>
 
-          <Form layout="vertical" onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('register_form2_input_first_name')}
                 validateStatus={this.state.first_name_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.first_name_InputFeedback ? true : false}
@@ -137,11 +138,11 @@ class RegisterStep2Form extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('first_name', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('register_form2_input_last_name')}
                 validateStatus={this.state.last_name_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.last_name_InputFeedback ? true : false}
@@ -155,7 +156,7 @@ class RegisterStep2Form extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('last_name', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-actions">
@@ -168,7 +169,7 @@ class RegisterStep2Form extends Component {
               </Button>
             </div>
 
-          </Form>
+          </LegacyForm>
         </div>
       }</Translation>
     )
@@ -190,4 +191,4 @@ class RegisterStep2Form extends Component {
   }
 }
 
-export default Form.create({name: 'register_step2_form'})(RegisterStep2Form);
+export default LegacyForm.create({name: 'register_step2_form'})(RegisterStep2Form);

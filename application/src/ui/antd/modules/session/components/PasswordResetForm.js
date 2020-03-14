@@ -2,7 +2,8 @@ import React, {Component, createRef} from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Button, Form, Icon, Input, Tooltip} from 'antd';
+import {Button, Input, Tooltip} from 'antd';
+import {Form as LegacyForm, Icon as LegacyIcon} from '@ant-design/compatible';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -129,10 +130,10 @@ class PasswordResetForm extends Component {
       <Translation>{(t) =>
         <div className="password-reset-form password-reset-form-step2" ref={this.formTop}>
 
-          <Form layout="vertical" onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('password_reset_form_input_email_address')}
                 validateStatus={this.state.email_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.email_InputFeedback ? true : false}
@@ -146,11 +147,11 @@ class PasswordResetForm extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('email', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('password_reset_form_input_code')}
                 validateStatus={this.state.code_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.code_InputFeedback ? true : false}
@@ -167,16 +168,16 @@ class PasswordResetForm extends Component {
                 })(
                   <Input />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={
                   <span>
                     {t('password_reset_form_input_password1')}&nbsp;
                     <Tooltip title={t('password_form_tooltip_password')}>
-                      <Icon type="question-circle-o" />
+                      <LegacyIcon type="question-circle-o" />
                     </Tooltip>
                   </span>
                 }
@@ -193,11 +194,11 @@ class PasswordResetForm extends Component {
                 })(
                   <Input type="password" onChange={(e) => this.onInputChange('password1', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('password_reset_form_input_password2')}
                 validateStatus={this.state.password2_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.password2_InputFeedback ? true : false}
@@ -211,7 +212,7 @@ class PasswordResetForm extends Component {
                 })(
                   <Input type="password" onChange={(e) => this.onInputChange('password2', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-actions">
@@ -233,7 +234,7 @@ class PasswordResetForm extends Component {
 
             </div>
 
-          </Form>
+          </LegacyForm>
 
         </div>
       }</Translation>
@@ -256,4 +257,4 @@ class PasswordResetForm extends Component {
   }
 }
 
-export default Form.create({name: 'password_reset_form'})(PasswordResetForm);
+export default LegacyForm.create({name: 'password_reset_form'})(PasswordResetForm);

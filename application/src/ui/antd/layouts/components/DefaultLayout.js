@@ -1,5 +1,6 @@
 import React, {Component, Suspense} from 'react';
-import {Button, Drawer, Dropdown, Icon, Layout} from 'antd';
+import {Button, Drawer, Dropdown, Layout} from 'antd';
+import {Icon as LegacyIcon} from '@ant-design/compatible';
 import {Translation} from 'react-i18next';
 
 import {MainRoutes} from '../../Routes';
@@ -62,7 +63,7 @@ class DefaultLayout extends Component {
               <Header>
 
                 <div className="main-nav-controls">
-                  <Icon
+                  <LegacyIcon
                     className="trigger"
                     type={this.props.isMenuCollapsed ? 'menu-unfold' : 'menu-fold'}
                     onClick={this.toggle}
@@ -70,7 +71,7 @@ class DefaultLayout extends Component {
                   <div style={{float: 'right'}}>
                     <Dropdown overlay={<UserMenu />} trigger={['hover', 'click']}>
                       <Button>
-                        <Icon type="menu" />
+                        <LegacyIcon type="menu" />
                       </Button>
                     </Dropdown>
                   </div>
@@ -79,7 +80,7 @@ class DefaultLayout extends Component {
                 <div className="mobile-nav-controls">
                   <div style={{float: 'right'}}>
                     <Button onClick={this.toggleDrawer}>
-                      <Icon
+                      <LegacyIcon
                         className="trigger-drawer"
                         type={'menu'}
                       />

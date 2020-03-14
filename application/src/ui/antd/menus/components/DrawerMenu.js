@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {Icon, Menu} from 'antd';
+import {Menu} from 'antd';
+import {Icon as LegacyIcon} from '@ant-design/compatible';
 import {Translation} from 'react-i18next';
 
 import Config from '../../../../Config';
@@ -49,14 +50,14 @@ function DrawerMenu(props) {
           x => hasRoute(x.screen)
             ? <Menu.Item key={x.key}>
                 <Link to={pathTo(x.screen)} onClick={props.toggleDrawer}>
-                  <Icon type={x.icon} />
+                  <LegacyIcon type={x.icon} />
                   <span>{t(x.title)}</span>
                 </Link>
               </Menu.Item>
             : null
           )}
         <Menu.Item key="2" onClick={logout}>
-          <Icon type="logout" />
+          <LegacyIcon type="logout" />
           {t('menu_item_logout')}
         </Menu.Item>
       </Menu>

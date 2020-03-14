@@ -1,7 +1,8 @@
 import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
-import {Button, Form, Icon, Input, Tooltip} from 'antd';
+import {Button, Input, Tooltip} from 'antd';
+import {Form as LegacyForm, Icon as LegacyIcon} from '@ant-design/compatible';
 
 import message from '../../../elements/lib/MessageWrapper';
 import Logger from '../../../../../lib/Logger';
@@ -121,10 +122,10 @@ class UpdatePasswordForm extends Component {
     return (
       <Translation>{(t) => 
         <div className="password-form" ref={this.formTop}>
-          <Form layout="vertical" onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('password_form_input_previous_password')}
                 validateStatus={this.state.previous_password_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.previous_password_InputFeedback ? true : false}
@@ -137,16 +138,16 @@ class UpdatePasswordForm extends Component {
                 })(
                   <Input type="password" onChange={(e) => this.onInputChange('previous_password', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={
                   <span>
                     {t('password_form_input_password1')}&nbsp;
                     <Tooltip title={t('password_form_tooltip_password')}>
-                      <Icon type="question-circle-o" />
+                      <LegacyIcon type="question-circle-o" />
                     </Tooltip>
                   </span>
                 }
@@ -163,11 +164,11 @@ class UpdatePasswordForm extends Component {
                 })(
                   <Input type="password" onChange={(e) => this.onInputChange('password1', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('password_form_input_password2')}
                 validateStatus={this.state.password2_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.password2_InputFeedback ? true : false}
@@ -181,7 +182,7 @@ class UpdatePasswordForm extends Component {
                 })(
                   <Input type="password" onChange={(e) => this.onInputChange('password2', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-actions">
@@ -194,7 +195,7 @@ class UpdatePasswordForm extends Component {
               </Button>
             </div>
 
-          </Form>
+          </LegacyForm>
         </div>
       }</Translation>
     )
@@ -216,6 +217,6 @@ class UpdatePasswordForm extends Component {
   }
 }
 
-export default Form.create({name: 'password_form'})(UpdatePasswordForm);
+export default LegacyForm.create({name: 'password_form'})(UpdatePasswordForm);
 
 Logger.log('silly', `UpdatePasswordForm loaded.`);

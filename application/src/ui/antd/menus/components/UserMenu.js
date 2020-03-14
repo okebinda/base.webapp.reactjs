@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {Icon, Menu, Modal} from 'antd';
+import {Menu, Modal} from 'antd';
+import {Icon as LegacyIcon} from '@ant-design/compatible';
 import {Translation, getI18n} from 'react-i18next';
 
 import {pathTo} from '../../Routes';
@@ -35,7 +36,7 @@ class UserMenu extends Component {
 
           <Menu.Item key="1">
             <Link to={pathTo('UserAccountScreen')}>
-              <Icon type="user" />
+              <LegacyIcon type="user" />
               {t('menu_item_user_account')}
             </Link>
           </Menu.Item>
@@ -43,7 +44,7 @@ class UserMenu extends Component {
           <Menu.Divider />
 
           <Menu.Item key="2" onClick={this.onLogoutClickHandler}>
-            <Icon type="logout" />
+            <LegacyIcon type="logout" />
             {t('menu_item_logout')}
           </Menu.Item>
           

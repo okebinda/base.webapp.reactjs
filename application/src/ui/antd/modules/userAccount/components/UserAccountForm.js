@@ -1,7 +1,8 @@
 import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
-import {Button, Form, Input} from 'antd';
+import {Button, Input} from 'antd';
+import {Form as LegacyForm} from '@ant-design/compatible';
 
 import Logger from '../../../../../lib/Logger';
 import message from '../../../elements/lib/MessageWrapper';
@@ -121,14 +122,14 @@ class UserAccountForm extends Component {
     return (
       <Translation>{(t) => 
         <div className="user-account-form" ref={this.formTop}>
-          <Form layout="vertical" onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
 
             <h4>
               <strong>{t('user_account_form_header_account')}</strong>
             </h4>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('user_account_form_input_username')}
                 validateStatus={this.state.username_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.username_InputFeedback ? true : false}
@@ -145,11 +146,11 @@ class UserAccountForm extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('username', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('user_account_form_input_email_address')}
                 validateStatus={this.state.email_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.email_InputFeedback ? true : false}
@@ -164,7 +165,7 @@ class UserAccountForm extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('email', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <br />
@@ -173,7 +174,7 @@ class UserAccountForm extends Component {
             </h4>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('user_account_form_input_first_name')}
                 validateStatus={this.state.first_name_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.first_name_InputFeedback ? true : false}
@@ -188,11 +189,11 @@ class UserAccountForm extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('first_name', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('user_account_form_input_last_name')}
                 validateStatus={this.state.last_name_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.last_name_InputFeedback ? true : false}
@@ -207,7 +208,7 @@ class UserAccountForm extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('last_name', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
 
@@ -221,7 +222,7 @@ class UserAccountForm extends Component {
               </Button>
             </div>
 
-          </Form>
+          </LegacyForm>
         </div>
       }</Translation>
     )
@@ -251,6 +252,6 @@ class UserAccountForm extends Component {
   }
 }
 
-export default Form.create({ name: 'user_account_form' })(UserAccountForm);
+export default LegacyForm.create({ name: 'user_account_form' })(UserAccountForm);
 
 Logger.log('silly', `UserAccountForm loaded.`);

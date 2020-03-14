@@ -2,7 +2,8 @@ import React, {Component, createRef} from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Button, Form, Input} from 'antd';
+import {Button, Input} from 'antd';
+import {Form as LegacyForm} from '@ant-design/compatible';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -119,10 +120,10 @@ class PasswordResetRequestForm extends Component {
       <Translation>{(t) =>
         <div className="password-reset-form password-reset-form-step1" ref={this.formTop}>
 
-          <Form layout="vertical" onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('password_reset_request_form_input_email_address')}
                 validateStatus={this.state.email_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.email_InputFeedback ? true : false}
@@ -136,7 +137,7 @@ class PasswordResetRequestForm extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('email', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-actions">
@@ -158,7 +159,7 @@ class PasswordResetRequestForm extends Component {
 
             </div>
 
-          </Form>
+          </LegacyForm>
           
         </div>
       }</Translation>
@@ -181,4 +182,4 @@ class PasswordResetRequestForm extends Component {
   }
 }
 
-export default Form.create({name: 'password_reset_request_form'})(PasswordResetRequestForm);
+export default LegacyForm.create({name: 'password_reset_request_form'})(PasswordResetRequestForm);

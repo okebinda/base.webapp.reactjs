@@ -2,7 +2,8 @@ import React, {Component, createRef} from 'react';
 import {Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Button, Checkbox, Form, Icon, Input, Tooltip} from 'antd';
+import {Button, Checkbox, Input, Tooltip} from 'antd';
+import {Form as LegacyForm, Icon as LegacyIcon} from '@ant-design/compatible';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -138,10 +139,10 @@ class RegisterStep1Form extends Component {
       <Translation>{(t) =>
         <div className="register-form register-form-step1" ref={this.formTop}>
 
-          <Form layout="vertical" onSubmit={this.handleSubmit}>
+          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('register_form1_input_username')}
                 validateStatus={this.state.username_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.username_InputFeedback ? true : false}
@@ -157,11 +158,11 @@ class RegisterStep1Form extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('username', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('register_form1_input_email_address')}
                 validateStatus={this.state.email_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.email_InputFeedback ? true : false}
@@ -175,16 +176,16 @@ class RegisterStep1Form extends Component {
                 })(
                   <Input onChange={(e) => this.onInputChange('email', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={
                   <span>
                     {t('register_form1_input_password1')}&nbsp;
                     <Tooltip title={t('register_form1_tooltip_password')}>
-                      <Icon type="question-circle-o" />
+                      <LegacyIcon type="question-circle-o" />
                     </Tooltip>
                   </span>
                 }
@@ -201,11 +202,11 @@ class RegisterStep1Form extends Component {
                 })(
                   <Input.Password onChange={(e) => this.onInputChange('password', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 label={t('register_form1_input_password2')}
                 validateStatus={this.state.password2_InputFeedback ? "error" : ''}
                 hasFeedback={this.state.password2_InputFeedback ? true : false}
@@ -219,11 +220,11 @@ class RegisterStep1Form extends Component {
                 })(
                   <Input.Password onChange={(e) => this.onInputChange('password2', e)} />
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-group">
-              <Form.Item
+              <LegacyForm.Item
                 validateStatus={this.state.tos_id_InputFeedback ? "error" : ''}
                 help={this.state.tos_id_InputFeedback}
               >
@@ -242,7 +243,7 @@ class RegisterStep1Form extends Component {
                     {t('register_form1_input_tos')}
                   </Checkbox>
                 )}
-              </Form.Item>
+              </LegacyForm.Item>
             </div>
 
             <div className="form-actions">
@@ -255,7 +256,7 @@ class RegisterStep1Form extends Component {
               </Button>
             </div>
 
-          </Form>
+          </LegacyForm>
 
         </div>
       }</Translation>
@@ -279,4 +280,4 @@ class RegisterStep1Form extends Component {
   }
 }
 
-export default Form.create({name: 'register_step1_form'})(RegisterStep1Form);
+export default LegacyForm.create({name: 'register_step1_form'})(RegisterStep1Form);
