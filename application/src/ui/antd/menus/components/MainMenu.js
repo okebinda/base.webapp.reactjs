@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Menu} from 'antd';
-import {Icon as LegacyIcon} from '@ant-design/compatible';
+import {DashboardOutlined, HomeOutlined, SettingOutlined} from '@ant-design/icons';
 import {Translation} from 'react-i18next';
 
 import {pathTo, hasRoute, getRouteFromPath} from '../../Routes';
@@ -15,19 +15,19 @@ function MainMenu(props) {
       'key': '1',
       'screen': 'DashboardScreen',
       'title': 'menu_item_dashboard',
-      'icon': 'dashboard'
+      'icon': <DashboardOutlined />
     },
     {
       'key': '2',
       'screen': 'Temp1Screen',
       'title': 'Temp 1',
-      'icon': 'home'
+      'icon': <HomeOutlined />
     },
     {
       'key': '3',
       'screen': 'Temp2Screen',
       'title': 'Temp 2',
-      'icon': 'setting'
+      'icon': <SettingOutlined />
     }
   ];
 
@@ -42,7 +42,7 @@ function MainMenu(props) {
           x => hasRoute(x.screen)
             ? <Menu.Item key={x.key}>
                 <Link to={pathTo(x.screen)}>
-                  <LegacyIcon type={x.icon} />
+                  {x.icon}
                   <span>{t(x.title)}</span>
                 </Link>
               </Menu.Item>

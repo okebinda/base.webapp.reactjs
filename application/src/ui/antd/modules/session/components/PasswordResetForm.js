@@ -3,7 +3,8 @@ import {Link, Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
 import {Button, Input, Tooltip} from 'antd';
-import {Form as LegacyForm, Icon as LegacyIcon} from '@ant-design/compatible';
+import {QuestionCircleOutlined} from '@ant-design/icons';
+import {Form as LegacyForm} from '@ant-design/compatible';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -177,7 +178,7 @@ class PasswordResetForm extends Component {
                   <span>
                     {t('password_reset_form_input_password1')}&nbsp;
                     <Tooltip title={t('password_form_tooltip_password')}>
-                      <LegacyIcon type="question-circle-o" />
+                      <QuestionCircleOutlined />
                     </Tooltip>
                   </span>
                 }

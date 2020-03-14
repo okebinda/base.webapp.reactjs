@@ -2,7 +2,8 @@ import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
 import {Button, Input, Tooltip} from 'antd';
-import {Form as LegacyForm, Icon as LegacyIcon} from '@ant-design/compatible';
+import {QuestionCircleOutlined} from '@ant-design/icons';
+import {Form as LegacyForm} from '@ant-design/compatible';
 
 import message from '../../../elements/lib/MessageWrapper';
 import Logger from '../../../../../lib/Logger';
@@ -147,7 +148,7 @@ class UpdatePasswordForm extends Component {
                   <span>
                     {t('password_form_input_password1')}&nbsp;
                     <Tooltip title={t('password_form_tooltip_password')}>
-                      <LegacyIcon type="question-circle-o" />
+                      <QuestionCircleOutlined />
                     </Tooltip>
                   </span>
                 }

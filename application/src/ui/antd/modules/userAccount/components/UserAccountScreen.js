@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Translation} from 'react-i18next';
 import {Card, Col, Row, Spin} from 'antd';
-import {Icon as LegacyIcon} from '@ant-design/compatible';
+import {LoadingOutlined} from '@ant-design/icons';
 
 import UserAccountForm from '../containers/UserAccountFormContainer';
 import UpdatePasswordForm from '../containers/UpdatePasswordFormContainer';
@@ -18,7 +18,7 @@ class UserAccountScreen extends Component {
   }
 
   render() {
-    const loadingIcon = <Spin indicator={<LegacyIcon type="loading" style={{ fontSize: 20 }} spin />} />;
+    const loadingIcon = <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} />;
     return (
       <Translation>{(t) => 
         <div>
