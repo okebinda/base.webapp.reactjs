@@ -10,7 +10,7 @@ import SessionTimeoutModal from './modules/session/containers/SessionTimeoutModa
 import withSplashScreen from './elements/containers/withSplashScreenContainer';
 
 import 'antd/dist/antd.css';
-import '@ant-design/compatible/assets/index.css'
+// import '@ant-design/compatible/assets/index.css'
 import './App.scss';
 
 // register modules
