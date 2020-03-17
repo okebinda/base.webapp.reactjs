@@ -99,7 +99,7 @@
       "password_form_title": "Update Password",
       "password_form_input_previous_password": "Current Password",
       "password_form_input_password1": "New Password",
-      "password_form_input_password2": "Confirm New Password",
+      "password_form_input_password2": "Confirm Password",
       "password_form_button_submit": "Submit",
       "password_form_button_submit_in_process": "Submiting",
       "password_form_message_success": "Password updated.",

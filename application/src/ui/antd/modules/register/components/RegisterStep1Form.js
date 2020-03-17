@@ -2,9 +2,8 @@ import React, {Component, createRef} from 'react';
 import {Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Button, Checkbox, Input, Tooltip} from 'antd';
+import {Button, Checkbox, Form, Input, Tooltip} from 'antd';
 import {QuestionCircleOutlined} from '@ant-design/icons';
-import {Form as LegacyForm} from '@ant-design/compatible';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -15,117 +14,94 @@ class RegisterStep1Form extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.initialState();
-    this.formTop = createRef();
+    this.state = {};
+    this.form = createRef();
   }
 
-  initialState = () => {
-    return {
-      ...this.formDefaults(),
+  // form column settings
+  layout = {
+    main: {
+      labelCol: {span: 8},
+      wrapperCol: {span: 16},
+    },
+    tail: {
+      wrapperCol: {
+        xs: {
+          span: 22,
+        },
+        sm: {
+          offset: 8,
+          span: 16,
+        },
+      },
     }
   }
 
-  formDefaults = () => {
-    let defs = {};
-
-    // reset error messages
-    for (const val of Object.keys(this.props.data)) {
-      defs[val + '_InputFeedback'] = '';
-    }
-    return defs;
-  }
-
-  // scroll handler
-  scrollToRef = (ref) => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop), 100);
-    }
-  }
-
-  // generic input change handler
-  onInputChange = (input, value) => {
-    this.setState({[input + '_InputFeedback']: ''})
-  }
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const {form} = this.props;
-    if (value && value !== form.getFieldValue('password')) {
-      callback(i18next.t('feedback_validation_password_match'));
+  compareToFirstPassword = (rule, value) => {
+    if (value && value !== this.form.current.getFieldValue('password')) {
+      return Promise.reject(i18next.t('feedback_validation_password_match'));
     } else {
-      callback();
+      return Promise.resolve();
     }
-  };
+  }
 
   parseFeedback = (errors, joinChar=' ') => {
-    const out = {};
+    let firstFieldName = '';
     for (const field in errors) {
-      out[field + '_InputFeedback'] = errors[field].join(joinChar);
+      this.form.current.setFields([{name: field, errors: errors[field]}]);
+      if (firstFieldName === '') {
+        firstFieldName = field;
+      }
     }
-    return out;
+    this.form.current.scrollToField(firstFieldName);
   }
 
-  submit = () => {
+  submitData = (values) => {
     Logger.log('debug', `RegisterStep1Form.submit()`);
-
-    // client-side input vaidation
-    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-      if (err) {
-        for (const key in err) {
-          let errMessage = '';
-          for (const error of err[key]['errors']) {
-            if (errMessage) {
-              errMessage += ' '
-            }
-            errMessage += error.message;
-          }
-          this.setState({[key + '_InputFeedback']: errMessage});
-        }
-        message.error(i18next.t('register_form1_message_failure'));
-        return;
-      }
-
-      // reset form feedback
-      this.setState(this.formDefaults());
       
-      // API POST/PUT payload
-      let payload = {};
-      for (const input of Object.keys(this.props.data)) {
-        if (fieldsValue[input]) {
-          payload[input] = fieldsValue[input];
-        }
+    // API POST/PUT payload
+    let payload = {};
+    for (const input of Object.keys(this.props.data)) {
+      if (values[input]) {
+        payload[input] = values[input];
       }
-      if (fieldsValue['tos_id']) {
-        payload['tos_id'] = this.props.tos_id;
-      }
+    }
+    if (values['tos_id']) {
+      payload['tos_id'] = this.props.tos_id;
+    }
 
-      // register
-      this.props.submit(payload, () => {
-        this.setState(this.parseFeedback(this.props.errors));
-        // this.scrollToRef(this.formTop);
-        if (this.props.success) {
-          this.props.createSession(
-            {
-              username: payload.username,
-              password: payload.password
-            },
-            () => {
-              this.setState({redirectTo: pathTo('RegisterStep2Screen')});
-            }
-          );
-        } else {
-          message.error(i18next.t('register_form1_message_failure'));
-        }
-      });
+    // register
+    this.props.submit(payload, () => {
+      this.parseFeedback(this.props.errors);
+      if (this.props.success) {
+        this.props.createSession(
+          {
+            username: payload.username,
+            password: payload.password
+          },
+          () => {
+            this.setState({redirectTo: pathTo('RegisterStep2Screen')});
+          }
+        );
+      } else {
+        message.error(i18next.t('register_form1_message_failure'));
+      }
     });
   }
 
   // form submit handler
-  handleSubmit = async (evt) => {
-    Logger.log('debug', `RegisterStep1Form.handleSubmit(###)`);
-    evt.preventDefault();
+  handleFinish = async (values) => {
+    Logger.log('debug', `RegisterStep1Form.handleFinish(###)`);
     if (!this.props.isSubmitting) {
-      await this.submit();
+      await this.submitData(values);
     }
+  }
+
+  // form error handler
+  handleFinishFailed = ({values, errorFields, outOfDate}) => {
+    Logger.log('debug', `RegisterStep1Form.handleFinishFailed(###)`);
+    message.error(i18next.t('register_form1_message_failure'));
+    this.form.current.scrollToField(errorFields[0].name);
   }
 
   render() {
@@ -134,54 +110,54 @@ class RegisterStep1Form extends Component {
       return <Redirect to={this.state.redirectTo} />;
     }
 
-    const {isSubmitting, form} = this.props;
+    const {isSubmitting} = this.props;
 
     return (
       <Translation>{(t) =>
-        <div className="register-form register-form-step1" ref={this.formTop}>
+        <div className="register-form register-form-step1">
 
-          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
+          <Form
+            {...this.layout.main}
+            name="register_step1_form"
+            onFinish={this.handleFinish}
+            onFinishFailed={this.handleFinishFailed}
+            ref={this.form}
+            initialValues={{
+              tos_id: false
+            }}
+          >
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="username"
                 label={t('register_form1_input_username')}
-                validateStatus={this.state.username_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.username_InputFeedback ? true : false}
-                help={this.state.username_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})},
+                  {pattern: /^\w+$/, message: t('feedback_validation_alphanumeric')},
+                  {pattern: /(?!^\d+$)^.+$/, message: t('feedback_validation_not_number')}
+                ]}
               >
-                {form.getFieldDecorator('username', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})},
-                    {pattern: /^\w+$/, message: t('feedback_validation_alphanumeric')},
-                    {pattern: /(?!^\d+$)^.+$/, message: t('feedback_validation_not_number')}
-                  ]
-                })(
-                  <Input onChange={(e) => this.onInputChange('username', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="email"
                 label={t('register_form1_input_email_address')}
-                validateStatus={this.state.email_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.email_InputFeedback ? true : false}
-                help={this.state.email_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {type: 'email', message: t('feedback_validation_email')}
+                ]}
               >
-                {form.getFieldDecorator('email', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {type: 'email', message: t('feedback_validation_email')}
-                  ]
-                })(
-                  <Input onChange={(e) => this.onInputChange('email', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="password"
                 label={
                   <span>
                     {t('register_form1_input_password1')}&nbsp;
@@ -190,74 +166,62 @@ class RegisterStep1Form extends Component {
                     </Tooltip>
                   </span>
                 }
-                validateStatus={this.state.password_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.password_InputFeedback ? true : false}
-                help={this.state.password_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {min: 8, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})},
+                  {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
+                ]}
               >
-                {form.getFieldDecorator('password', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {min: 8, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})},
-                    {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
-                  ]
-                })(
-                  <Input.Password onChange={(e) => this.onInputChange('password', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input.Password />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="password2"
                 label={t('register_form1_input_password2')}
-                validateStatus={this.state.password2_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.password2_InputFeedback ? true : false}
-                help={this.state.password2_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {validator: this.compareToFirstPassword}
+                ]}
               >
-                {form.getFieldDecorator('password2', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {validator: this.compareToFirstPassword}
-                  ]
-                })(
-                  <Input.Password onChange={(e) => this.onInputChange('password2', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input.Password />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
-                validateStatus={this.state.tos_id_InputFeedback ? "error" : ''}
-                help={this.state.tos_id_InputFeedback}
+              <Form.Item
+                name="tos_id"
+                valuePropName="checked"
+                {...this.layout.tail}
+                rules={[
+                  {
+                    required: true,
+                    transform: value => (value || undefined),
+                    type: 'boolean',
+                    message: t('feedback_validation_tos')
+                  }
+                ]}
               >
-                {form.getFieldDecorator('tos_id', {
-                  initialValue: false,
-                  rules: [
-                    {
-                      required: true,
-                      transform: value => (value || undefined),
-                      type: 'boolean',
-                      message: t('feedback_validation_tos')
-                    }
-                  ]
-                })(
-                  <Checkbox onChange={(e) => this.onInputChange('tos_id', e)}>
-                    {t('register_form1_input_tos')}
-                  </Checkbox>
-                )}
-              </LegacyForm.Item>
+                <Checkbox>
+                  {t('register_form1_input_tos')}
+                </Checkbox>
+              </Form.Item>
             </div>
 
             <div className="form-actions">
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={isSubmitting}
-              >
-                {isSubmitting ? t('register_form1_button_submit_in_process') : t('register_form1_button_submit') }
-              </Button>
+              <Form.Item {...this.layout.tail}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isSubmitting}
+                >
+                  {isSubmitting ? t('register_form1_button_submit_in_process') : t('register_form1_button_submit') }
+                </Button>
+              </Form.Item>
             </div>
 
-          </LegacyForm>
+          </Form>
 
         </div>
       }</Translation>
@@ -281,4 +245,4 @@ class RegisterStep1Form extends Component {
   }
 }
 
-export default LegacyForm.create({name: 'register_step1_form'})(RegisterStep1Form);
+export default RegisterStep1Form;

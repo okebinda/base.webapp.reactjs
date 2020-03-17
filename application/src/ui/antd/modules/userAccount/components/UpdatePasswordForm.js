@@ -1,9 +1,8 @@
 import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
-import {Button, Input, Tooltip} from 'antd';
+import {Button, Form, Input, Tooltip} from 'antd';
 import {QuestionCircleOutlined} from '@ant-design/icons';
-import {Form as LegacyForm} from '@ant-design/compatible';
 
 import message from '../../../elements/lib/MessageWrapper';
 import Logger from '../../../../../lib/Logger';
@@ -12,138 +11,116 @@ class UpdatePasswordForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.initializeState();
-    this.formTop = createRef();
+    this.state = {};
+    this.form = createRef();
   }
 
-  initializeState = () => {
-    Logger.log('debug', `UpdatePasswordForm.initializeState()`);
-    return {
-      ...this.formDefaults()
+  // form column settings
+  layout = {
+    main: {
+      labelCol: {span: 10},
+      wrapperCol: {span: 14},
+    },
+    tail: {
+      wrapperCol: {
+        xs: {
+          span: 22,
+        },
+        sm: {
+          offset: 10,
+          span: 14,
+        },
+      },
     }
   }
 
-  formDefaults = () => {
-    Logger.log('debug', `UpdatePasswordForm.formDefaults()`);
-
-    let defs = {};
-
-    // reset error messages
-    for (const val of Object.keys(this.props.data)) {
-      defs[val + '_InputFeedback'] = '';
-    }
-    return defs;
-  }
-
-  // scroll handler
-  scrollToRef = (ref) => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop), 100);
-    }
-  }
-
-  // generic input change handler
-  onInputChange = (input, value) => {
-    this.setState({[input + '_InputFeedback']: ''})
-  }
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const {form} = this.props;
-    if (value && value !== form.getFieldValue('password1')) {
-      callback(i18next.t('feedback_validation_password_match'));
+  compareToFirstPassword = (rule, value) => {
+    if (value && value !== this.form.current.getFieldValue('password1')) {
+      return Promise.reject(i18next.t('feedback_validation_password_match'));
     } else {
-      callback();
+      return Promise.resolve();
     }
-  };
+  }
 
   // submit data handler
-  submitData = async () => {
-    Logger.log('debug', `UpdatePasswordForm.submitData()`);
+  submitData = async (values) => {
+    Logger.log('debug', `UpdatePasswordForm.submitData(###)`);
 
-    // client-side input vaidation
-    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-      if (err) {
-        for (const key in err) {
-          let errMessage = '';
-          for (const error of err[key]['errors']) {
-            if (errMessage) {
-              errMessage += ' '
-            }
-            errMessage += error.message;
-          }
-          this.setState({[key + '_InputFeedback']: errMessage});
-        }
+    // API POST/PUT payload
+    let payload = {};
+    for (const input of Object.keys(this.props.data)) {
+      if (values[input]) {
+        payload[input] = values[input];
+      }
+    }
+
+    // update
+    this.props.submit(payload, () => {
+      this.parseFeedback(this.props.errors);
+      if (this.props.success) {
+        message.success(i18next.t('password_form_message_success'));
+      } else {
         message.error(i18next.t('password_form_message_failure'));
-        return;
       }
-
-      // reset form feedback and disable submit button
-      this.setState(this.formDefaults());
-
-      // API POST/PUT payload
-      let payload = {};
-      for (const input of Object.keys(this.props.data)) {
-        if (fieldsValue[input]) {
-          payload[input] = fieldsValue[input];
-        }
-      }
-
-      // update
-      this.props.submit(payload, () => {
-        this.setState(this.parseFeedback(this.props.errors));
-        // this.scrollToRef(this.formTop);
-        if (this.props.success) {
-          message.success(i18next.t('password_form_message_success'));
-        } else {
-          message.error(i18next.t('password_form_message_failure'));
-        }
-      });
     });
   }
 
   parseFeedback = (errors, joinChar=' ') => {
-    const out = {};
+    let firstFieldName = '';
     for (const field in errors) {
-      out[field + '_InputFeedback'] = errors[field].join(joinChar);
+      this.form.current.setFields([{name: field, errors: errors[field]}]);
+      if (firstFieldName === '') {
+        firstFieldName = field;
+      }
     }
-    return out;
+    this.form.current.scrollToField(firstFieldName);
   }
 
   // form submit handler
-  handleSubmit = async (evt) => {
-    Logger.log('debug', `UpdatePasswordForm.handleSubmit(###)`);
-    evt.preventDefault();
+  handleFinish = async (values) => {
+    Logger.log('debug', `UpdatePasswordForm.handleFinish(###)`);
     if (!this.props.isSubmitting) {
-      await this.submitData();
+      await this.submitData(values);
     }
   }
 
+  // form error handler
+  handleFinishFailed = ({values, errorFields, outOfDate}) => {
+    Logger.log('debug', `UpdatePasswordForm.handleFinishFailed(###)`);
+    message.error(i18next.t('password_form_message_failure'));
+    this.form.current.scrollToField(errorFields[0].name);
+  }
+
   render() {
-    const {form, isSubmitting} = this.props;
+
+    const {isSubmitting} = this.props;
+
     return (
       <Translation>{(t) => 
-        <div className="password-form" ref={this.formTop}>
-          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
+        <div className="password-form">
+          <Form
+            {...this.layout.main}
+            name="password_form"
+            onFinish={this.handleFinish}
+            onFinishFailed={this.handleFinishFailed}
+            ref={this.form}
+          >
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="previous_password"
                 label={t('password_form_input_previous_password')}
-                validateStatus={this.state.previous_password_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.previous_password_InputFeedback ? true : false}
-                help={this.state.previous_password_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')}
+                ]}
               >
-                {form.getFieldDecorator('previous_password', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')}
-                  ]
-                })(
-                  <Input type="password" onChange={(e) => this.onInputChange('previous_password', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input type="password" />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="password1"
                 label={
                   <span>
                     {t('password_form_input_password1')}&nbsp;
@@ -152,51 +129,42 @@ class UpdatePasswordForm extends Component {
                     </Tooltip>
                   </span>
                 }
-                validateStatus={this.state.password1_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.password1_InputFeedback ? true : false}
-                help={this.state.password1_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {min: 8, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})},
+                  {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
+                ]}
               >
-                {form.getFieldDecorator('password1', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {min: 8, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})},
-                    {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
-                  ]
-                })(
-                  <Input type="password" onChange={(e) => this.onInputChange('password1', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input type="password" />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="password2"
                 label={t('password_form_input_password2')}
-                validateStatus={this.state.password2_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.password2_InputFeedback ? true : false}
-                help={this.state.password2_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {validator: this.compareToFirstPassword}
+                ]}
               >
-                {form.getFieldDecorator('password2', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {validator: this.compareToFirstPassword}
-                  ]
-                })(
-                  <Input type="password" onChange={(e) => this.onInputChange('password2', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input type="password"/>
+              </Form.Item>
             </div>
 
             <div className="form-actions">
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={isSubmitting}
-              >
-                {isSubmitting ? t('password_form_button_submit_in_process') : t('password_form_button_submit') }
-              </Button>
+              <Form.Item {...this.layout.tail}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isSubmitting}
+                >
+                  {isSubmitting ? t('password_form_button_submit_in_process') : t('password_form_button_submit') }
+                </Button>
+              </Form.Item>
             </div>
 
-          </LegacyForm>
+          </Form>
         </div>
       }</Translation>
     )
@@ -218,6 +186,6 @@ class UpdatePasswordForm extends Component {
   }
 }
 
-export default LegacyForm.create({name: 'password_form'})(UpdatePasswordForm);
+export default UpdatePasswordForm;
 
 Logger.log('silly', `UpdatePasswordForm loaded.`);

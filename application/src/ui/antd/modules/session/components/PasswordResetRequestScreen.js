@@ -37,9 +37,15 @@ class PasswordResetRequestScreen extends Component {
 
                   <Col sm={24} md={{ span: 16, offset: 2 }}>
                     <PasswordResetRequestForm />
-                    <div className="password-reset-instructions">
-                      <p>{t('password_reset_screen_instructions')}</p>
-                    </div>
+
+                    <Row>
+                      <Col xs={24} sm={{ span: 16, offset: 8 }}>
+                        <div className="password-reset-instructions">
+                          <p>{t('password_reset_screen_instructions')}</p>
+                        </div>
+                      </Col>
+                    </Row>
+                    
                   </Col>
 
                 </Row>

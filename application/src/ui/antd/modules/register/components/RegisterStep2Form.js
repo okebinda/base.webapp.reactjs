@@ -2,8 +2,7 @@ import React, {Component, createRef} from 'react';
 import {Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Button, Input} from 'antd';
-import {Form as LegacyForm} from '@ant-design/compatible';
+import {Button, Form, Input} from 'antd';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -15,98 +14,76 @@ class RegisterStep2Form extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.initialState();
-    this.formTop = createRef();
+    this.state = {};
+    this.form = createRef();
   }
 
-  initialState = () => {
-    return {
-      ...this.formDefaults(),
+  // form column settings
+  layout = {
+    main: {
+      labelCol: {span: 8},
+      wrapperCol: {span: 16},
+    },
+    tail: {
+      wrapperCol: {
+        xs: {
+          span: 22,
+        },
+        sm: {
+          offset: 8,
+          span: 16,
+        },
+      },
     }
-  }
-
-  formDefaults = () => {
-    let defs = {};
-
-    // reset error messages
-    for (const val of Object.keys(this.props.data)) {
-      defs[val + '_InputFeedback'] = '';
-    }
-    return defs;
-  }
-
-  // scroll handler
-  scrollToRef = (ref) => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop), 100);
-    }
-  }
-
-  // generic input change handler
-  onInputChange = (input, value) => {
-    this.setState({[input + '_InputFeedback']: ''})
   }
 
   parseFeedback = (errors, joinChar=' ') => {
-    const out = {};
+    let firstFieldName = '';
     for (const field in errors) {
-      out[field + '_InputFeedback'] = errors[field].join(joinChar);
+      this.form.current.setFields([{name: field, errors: errors[field]}]);
+      if (firstFieldName === '') {
+        firstFieldName = field;
+      }
     }
-    return out;
+    this.form.current.scrollToField(firstFieldName);
   }
 
   // submit registration step 2 handler
-  submit = async () => {
+  submitData = (values) => {
     Logger.log('debug', `RegisterStep2Form.submitRegistrationStep2()`);
-
-    // client-side input vaidation
-    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
-      if (err) {
-        for (const key in err) {
-          let errMessage = '';
-          for (const error of err[key]['errors']) {
-            if (errMessage) {
-              errMessage += ' '
-            }
-            errMessage += error.message;
-          }
-          this.setState({[key + '_InputFeedback']: errMessage});
-        }
-        message.error(i18next.t('register_form2_message_failure'));
-        return;
-      }
-
-      // reset form feedback
-      this.setState(this.formDefaults());
       
-      // API POST/PUT payload
-      let payload = {};
-      for (const input of Object.keys(this.props.data)) {
-        if (fieldsValue[input]) {
-          payload[input] = fieldsValue[input];
-        }
+    // API POST/PUT payload
+    let payload = {};
+    for (const input of Object.keys(this.props.data)) {
+      if (values[input]) {
+        payload[input] = values[input];
       }
+    }
 
-      this.props.submit(payload, () => {
-        this.setState(this.parseFeedback(this.props.errors));
-        if (this.props.success) {
-          message.success(i18next.t('register_form2_message_success'));
-          this.setState({redirectTo: pathTo(Config.get('DEFAULT_LOGIN_REDIRECT')) });
-        } else {
-          // this.scrollToRef(this.formTop);
-          message.error(i18next.t('register_form2_message_failure'));
-        }
-      });
+    this.props.submit(payload, () => {
+      this.parseFeedback(this.props.errors);
+      if (this.props.success) {
+        message.success(i18next.t('register_form2_message_success'));
+        this.setState({redirectTo: pathTo(Config.get('DEFAULT_LOGIN_REDIRECT')) });
+      } else {
+        message.error(i18next.t('register_form2_message_failure'));
+      }
     });
   }
 
   // form submit handler
-  handleSubmit = async (evt) => {
-    Logger.log('debug', `RegisterStep2Form.handleSubmit(###)`);
-    evt.preventDefault();
+  handleFinish = async (values) => {
+    Logger.log('debug', `RegisterStep2Form.handleFinish(###)`);
     if (!this.props.isSubmitting) {
-      await this.submit();
+      await this.submitData(values);
     }
+  }
+
+  // form error handler
+  handleFinishFailed = ({values, errorFields, outOfDate}) => {
+    Logger.log('debug', `RegisterStep2Form.handleFinishFailed(###)`);
+    message.error(i18next.t('register_form2_message_failure'));
+    this.form.current.scrollToField(errorFields[0].name);
   }
 
   render() {
@@ -115,61 +92,59 @@ class RegisterStep2Form extends Component {
       return <Redirect to={this.state.redirectTo} />;
     }
 
-    const {isSubmitting, form} = this.props;
+    const {isSubmitting} = this.props;
 
     return (
       <Translation>{(t) =>
-        <div className="register-form register-form-step2" ref={this.formTop}>
+        <div className="register-form register-form-step2">
 
-          <LegacyForm layout="vertical" onSubmit={this.handleSubmit}>
+          <Form
+            {...this.layout.main}
+            name="register_step2_form"
+            onFinish={this.handleFinish}
+            onFinishFailed={this.handleFinishFailed}
+            ref={this.form}
+          >
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="first_name"
                 label={t('register_form2_input_first_name')}
-                validateStatus={this.state.first_name_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.first_name_InputFeedback ? true : false}
-                help={this.state.first_name_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {min: 1, max: 40, message: t('feedback_validation_length', {min: 1, max: 40})}
+                ]}
               >
-                {form.getFieldDecorator('first_name', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {min: 1, max: 40, message: t('feedback_validation_length', {min: 1, max: 40})}
-                  ]
-                })(
-                  <Input onChange={(e) => this.onInputChange('first_name', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input />
+              </Form.Item>
             </div>
 
             <div className="form-group">
-              <LegacyForm.Item
+              <Form.Item
+                name="last_name"
                 label={t('register_form2_input_last_name')}
-                validateStatus={this.state.last_name_InputFeedback ? "error" : ''}
-                hasFeedback={this.state.last_name_InputFeedback ? true : false}
-                help={this.state.last_name_InputFeedback}
+                rules={[
+                  {required: true, message: t('feedback_validation_required')},
+                  {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})}
+                ]}
               >
-                {form.getFieldDecorator('last_name', {
-                  rules: [
-                    {required: true, message: t('feedback_validation_required')},
-                    {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})}
-                  ]
-                })(
-                  <Input onChange={(e) => this.onInputChange('last_name', e)} />
-                )}
-              </LegacyForm.Item>
+                <Input />
+              </Form.Item>
             </div>
 
             <div className="form-actions">
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={isSubmitting}
-              >
-                {isSubmitting ? t('register_form2_button_submit_in_process') : t('register_form2_button_submit') }
-              </Button>
+              <Form.Item {...this.layout.tail}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isSubmitting}
+                >
+                  {isSubmitting ? t('register_form2_button_submit_in_process') : t('register_form2_button_submit') }
+                </Button>
+              </Form.Item>
             </div>
 
-          </LegacyForm>
+          </Form>
         </div>
       }</Translation>
     )
@@ -191,4 +166,4 @@ class RegisterStep2Form extends Component {
   }
 }
 
-export default LegacyForm.create({name: 'register_step2_form'})(RegisterStep2Form);
+export default RegisterStep2Form;

@@ -1,7 +1,7 @@
 import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
-import {Button, Form, Input, Row, Col} from 'antd';
+import {Button, Col, Form, Input, Row} from 'antd';
 
 import Logger from '../../../../../lib/Logger';
 import message from '../../../elements/lib/MessageWrapper';
@@ -17,13 +17,18 @@ class UserAccountForm extends Component {
   // form column settings
   layout = {
     main: {
-      labelCol: {span: 6},
-      wrapperCol: {span: 18},
+      labelCol: {span: 8},
+      wrapperCol: {span: 16},
     },
     tail: {
       wrapperCol: {
-        offset: 6,
-        span: 18,
+        xs: {
+          span: 22,
+        },
+        sm: {
+          offset: 8,
+          span: 16,
+        },
       },
     }
   }
@@ -40,7 +45,7 @@ class UserAccountForm extends Component {
 
   // submit data handler
   submitData = async (values) => {
-    Logger.log('debug', `UserAccountForm.submitData()`);
+    Logger.log('debug', `UserAccountForm.submitData(###)`);
 
     // API POST/PUT payload
     let payload = {};
@@ -80,6 +85,7 @@ class UserAccountForm extends Component {
     }
   }
 
+  // form error handler
   handleFinishFailed = ({values, errorFields, outOfDate}) => {
     Logger.log('debug', `UserAccountForm.handleFinishFailed(###)`);
     message.error(i18next.t('user_account_form_message_failure'));

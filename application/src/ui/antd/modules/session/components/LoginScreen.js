@@ -22,9 +22,9 @@ class LoginScreen extends Component {
 
           <div className="container-form-login">
             <Row type="flex" justify="space-around" align="middle">
-              <Col xs={20} sm={14} md={10} lg={8} xl={6}>
+              <Col xs={22} sm={16} md={12} lg={10} xl={8}>
 
-                <h1>{t('app_name')}</h1>
+                <h1 style={{textAlign: "center"}}>{t('app_name')}</h1>
                 <LoginForm location={this.props.location} />
 
               </Col>

@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
-import {Input, Button, Checkbox} from 'antd';
-import {Form as LegacyForm} from '@ant-design/compatible';
+import {Button, Checkbox, Form, Input} from 'antd';
 
 import Logger from '../../../../../lib/Logger';
 import Config from '../../../../../Config';
@@ -16,14 +15,27 @@ class LoginForm extends Component {
     super(props);
     this.state = {
       redirectToReferrer: false,
-      username: '',
-      password:''
     };
+    this.form = createRef();
   }
 
-  // generic input change handler
-  onInputChange = (input, evt) => {
-    this.setState({[input]: evt.target.value});
+  // form column settings
+  layout = {
+    main: {
+      labelCol: {span: 6},
+      wrapperCol: {span: 18},
+    },
+    tail: {
+      wrapperCol: {
+        xs: {
+          span: 22,
+        },
+        sm: {
+          offset: 6,
+          span: 18,
+        },
+      },
+    }
   }
 
   // submit credentials handler
@@ -41,22 +53,21 @@ class LoginForm extends Component {
   }
 
   // form submit handler
-  handleSubmit = async (evt) => {
-    Logger.log('debug', `LoginForm.handleSubmit(###)`);
-    evt.preventDefault();
-    if (!this.props.isLoading) {
-      this.props.form.validateFields(async (err, values) => {
-        if (!err) {
-          await this.submitCredentials(values);
-        } else {
-          message.error(i18next.t('login_form_message_failure'));
-        }
-      });
+  handleFinish = async (values) => {
+    Logger.log('debug', `LoginForm.handleFinish(###)`);
+    if (!this.props.isSubmitting) {
+      await this.submitCredentials(values);
     }
   }
 
+  // form error handler
+  handleFinishFailed = ({values, errorFields, outOfDate}) => {
+    Logger.log('debug', `LoginForm.handleFinishFailed(###)`);
+    message.error(i18next.t('login_form_message_failure'));
+  }
+
   render() {
-    const {form, isSubmitting} = this.props;
+    const {isSubmitting} = this.props;
     const {from} = this.props.location.state || { from: { pathname: pathTo(Config.get('DEFAULT_LOGIN_REDIRECT')) } }
     const {redirectToReferrer} = this.state;
 
@@ -67,58 +78,78 @@ class LoginForm extends Component {
     return (
       <Translation>{(t) => 
         <div>
-          <LegacyForm layout="vertical" hideRequiredMark onSubmit={this.handleSubmit}>
+          <Form
+            hideRequiredMark
+            {...this.layout.main}
+            name="login_form"
+            onFinish={this.handleFinish}
+            onFinishFailed={this.handleFinishFailed}
+            ref={this.form}
+            initialValues={{
+              remember: true
+            }}
+          >
 
-            <LegacyForm.Item label={t('login_form_input_username')}>
-              {form.getFieldDecorator('username', {
-                initialValue: '',
-                rules: [{ required: true, message: t('feedback_validation_required') }],
-              })(<Input autoFocus />)}
-            </LegacyForm.Item>
+            <Form.Item
+              name="username"
+              label={t('login_form_input_username')}
+              rules={[
+                { required: true, message: t('feedback_validation_required') }
+              ]}
+            >
+              <Input autoFocus />
+            </Form.Item>
 
-            <LegacyForm.Item label={t('login_form_input_password')}>
-              {form.getFieldDecorator('password', {
-                initialValue: '',
-                rules: [{ required: true, message: t('feedback_validation_required') }],
-              })(<Input.Password />)}
-            </LegacyForm.Item>
+            <Form.Item
+              name="password"
+              label={t('login_form_input_password')}
+              rules={[
+                { required: true, message: t('feedback_validation_required') }
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
 
-            <LegacyForm.Item>
-              {form.getFieldDecorator('remember', {
-                valuePropName: 'checked',
-                initialValue: true,
-              })(<Checkbox>{t('login_form_input_remember')}</Checkbox>)}
+            <Form.Item {...this.layout.tail}>
+              <Form.Item
+                name="remember"
+                valuePropName="checked"
+                noStyle
+              >
+                <Checkbox>{t('login_form_input_remember')}</Checkbox>
+              </Form.Item>
               <Link
                 to={pathTo('PasswordResetRequestScreen')}
                 className="link-forgot-password"
               >
                 {t('login_form_button_forgot_password')}
               </Link>
-            </LegacyForm.Item>
+            </Form.Item>
+            
 
             <div className="form-actions">
+              <Form.Item {...this.layout.tail}>
+                <Button
+                  type="primary"
+                  className="login-button"
+                  htmlType="submit"
+                  loading={isSubmitting}
+                >
+                  {t('login_form_button_submit')}
+                </Button>
 
-              <Button
-                type="primary"
-                className="login-button"
-                htmlType="submit"
-                loading={isSubmitting}
-              >
-                {t('login_form_button_submit')}
-              </Button>
-
-              {hasRoute('RegisterStep1Screen')
-                ? <span className="">
-                    <Link to={pathTo('RegisterStep1Screen')} className="">
-                    {t('login_form_link_register')}
-                    </Link>{' '}
-                    {t('login_form_text_register')}
-                  </span>
-                : null}
-              
+                {hasRoute('RegisterStep1Screen')
+                  ? <span className="">
+                      <Link to={pathTo('RegisterStep1Screen')} className="">
+                      {t('login_form_link_register')}
+                      </Link>{' '}
+                      {t('login_form_text_register')}
+                    </span>
+                  : null}
+              </Form.Item>
             </div>
 
-          </LegacyForm>
+          </Form>
         </div>
       }</Translation>
     )
@@ -139,7 +170,6 @@ class LoginForm extends Component {
   }
 }
 
-const WrappedLoginForm = LegacyForm.create({ name: 'login_form' })(LoginForm);
-export default WrappedLoginForm;
+export default LoginForm;
 
 Logger.log('silly', `LoginForm loaded.`);
