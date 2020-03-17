@@ -1,7 +1,7 @@
 import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
-import {Button, Form, Input} from 'antd';
+import {Button, Form, Input, Row, Col} from 'antd';
 
 import Logger from '../../../../../lib/Logger';
 import message from '../../../elements/lib/MessageWrapper';
@@ -14,15 +14,18 @@ class UserAccountForm extends Component {
     this.form = createRef();
   }
 
-  // label and field wrapper column settings
+  // form column settings
   layout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 18},
-  }
-
-  // generic input change handler
-  onInputChange = (input, value) => {
-    this.setState({[input + '_InputFeedback']: ''})
+    main: {
+      labelCol: {span: 6},
+      wrapperCol: {span: 18},
+    },
+    tail: {
+      wrapperCol: {
+        offset: 6,
+        span: 18,
+      },
+    }
   }
 
   // load values from props into inputs
@@ -39,24 +42,23 @@ class UserAccountForm extends Component {
   submitData = async (values) => {
     Logger.log('debug', `UserAccountForm.submitData()`);
 
-      // API POST/PUT payload
-      let payload = {};
-      for (const input of Object.keys(this.props.data)) {
-        if (values[input]) {
-          payload[input] = values[input];
-        }
+    // API POST/PUT payload
+    let payload = {};
+    for (const input of Object.keys(this.props.data)) {
+      if (values[input]) {
+        payload[input] = values[input];
       }
+    }
 
-      // update
-      this.props.submit(payload, () => {
-        this.parseFeedback(this.props.errors);
-        if (this.props.success) {
-          message.success(i18next.t('user_account_form_message_success'));
-        } else {
-          message.error(i18next.t('user_account_form_message_failure'));
-        }
-      });
-    // });
+    // update
+    this.props.submit(payload, () => {
+      this.parseFeedback(this.props.errors);
+      if (this.props.success) {
+        message.success(i18next.t('user_account_form_message_success'));
+      } else {
+        message.error(i18next.t('user_account_form_message_failure'));
+      }
+    });
   }
 
   parseFeedback = (errors, joinChar=' ') => {
@@ -92,16 +94,20 @@ class UserAccountForm extends Component {
       <Translation>{(t) => 
         <div className="user-account-form">
           <Form
-            {...this.layout}
+            {...this.layout.main}
             name="user_account_form"
             onFinish={this.handleFinish}
             onFinishFailed={this.handleFinishFailed}
             ref={this.form}
           >
 
-            <h4>
-              <strong>{t('user_account_form_header_account')}</strong>
-            </h4>
+            <Row>
+              <Col offset={this.layout.main.labelCol.span}>
+                <h4>
+                  <strong>{t('user_account_form_header_account')}</strong>
+                </h4>
+              </Col>
+            </Row>
 
             <div className="form-group">
               <Form.Item
@@ -114,7 +120,7 @@ class UserAccountForm extends Component {
                   {pattern: /(?!^\d+$)^.+$/, message: t('feedback_validation_not_number')}
                 ]}
               >
-                <Input onChange={(e) => this.onInputChange('username', e)} />
+                <Input />
               </Form.Item>
             </div>
 
@@ -127,14 +133,17 @@ class UserAccountForm extends Component {
                   {type: 'email', message: t('feedback_validation_email')}
                 ]}
               >
-                <Input onChange={(e) => this.onInputChange('email', e)} />
+                <Input />
               </Form.Item>
             </div>
 
-            <br />
-            <h4>
-              <strong>{t('user_account_form_header_profile')}</strong>
-            </h4>
+            <Row>
+              <Col offset={this.layout.main.labelCol.span}>
+                <h4>
+                  <strong>{t('user_account_form_header_profile')}</strong>
+                </h4>
+              </Col>
+            </Row>
 
             <div className="form-group">
               <Form.Item
@@ -145,7 +154,7 @@ class UserAccountForm extends Component {
                   {max: 40, message: t('feedback_validation_length', {min: 1, max: 40})}
                 ]}
               >
-                <Input onChange={(e) => this.onInputChange('first_name', e)} />
+                <Input />
               </Form.Item>
             </div>
 
@@ -158,18 +167,20 @@ class UserAccountForm extends Component {
                   {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})}
                 ]}
               >
-                <Input onChange={(e) => this.onInputChange('last_name', e)} />
+                <Input />
               </Form.Item>
             </div>
 
             <div className="form-actions">
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={isSubmitting}
-              >
-                {isSubmitting ? t('user_account_form_button_submit_in_process') : t('user_account_form_button_submit') }
-              </Button>
+              <Form.Item {...this.layout.tail}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isSubmitting}
+                >
+                  {isSubmitting ? t('user_account_form_button_submit_in_process') : t('user_account_form_button_submit') }
+                </Button>
+              </Form.Item>
             </div>
 
           </Form>
@@ -202,7 +213,6 @@ class UserAccountForm extends Component {
   }
 }
 
-// export default LegacyForm.create({ name: 'user_account_form' })(UserAccountForm);
 export default UserAccountForm;
 
 Logger.log('silly', `UserAccountForm loaded.`);
