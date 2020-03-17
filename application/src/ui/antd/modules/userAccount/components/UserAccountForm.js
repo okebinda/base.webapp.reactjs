@@ -94,7 +94,7 @@ class UserAccountForm extends Component {
 
   render() {
 
-    const {isSubmitting} = this.props;
+    const {isSubmitting, isLoading} = this.props;
 
     return (
       <Translation>{(t) => 
@@ -126,7 +126,7 @@ class UserAccountForm extends Component {
                   {pattern: /(?!^\d+$)^.+$/, message: t('feedback_validation_not_number')}
                 ]}
               >
-                <Input />
+                <Input disabled={isLoading || isSubmitting} />
               </Form.Item>
             </div>
 
@@ -139,7 +139,7 @@ class UserAccountForm extends Component {
                   {type: 'email', message: t('feedback_validation_email')}
                 ]}
               >
-                <Input />
+                <Input disabled={isLoading || isSubmitting} />
               </Form.Item>
             </div>
 
@@ -160,7 +160,7 @@ class UserAccountForm extends Component {
                   {max: 40, message: t('feedback_validation_length', {min: 1, max: 40})}
                 ]}
               >
-                <Input />
+                <Input disabled={isLoading || isSubmitting} />
               </Form.Item>
             </div>
 
@@ -173,7 +173,7 @@ class UserAccountForm extends Component {
                   {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})}
                 ]}
               >
-                <Input />
+                <Input disabled={isLoading || isSubmitting} />
               </Form.Item>
             </div>
 

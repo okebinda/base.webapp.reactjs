@@ -26,12 +26,12 @@ class UserAccountScreen extends Component {
           <DocumentHead title={t('route_user_account')} />
 
           <Row gutter={24}>
-            <Col md={24} lg={12}>
+            <Col lg={24} xl={12}>
               <Card title={t('user_account_form_title')} extra={this.props.isLoading ? loadingIcon : null}>
                 <UserAccountForm />
               </Card>
             </Col>
-            <Col md={24} lg={12}>
+            <Col lg={24} xl={12}>
               <Card title={t('password_form_title')}>
                 <UpdatePasswordForm />
               </Card>

@@ -10,6 +10,7 @@ import SessionTimeoutModal from './modules/session/containers/SessionTimeoutModa
 import withSplashScreen from './elements/containers/withSplashScreenContainer';
 
 import 'antd/dist/antd.css';
+// import 'antd/dist/antd.dark.css'; // enable dark mode
 import './App.scss';
 
 // register modules

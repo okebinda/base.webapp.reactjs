@@ -1,6 +1,6 @@
 {
   "name": "base.webapp.reactjs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Base Web App for a REST API",
   "author": "Kevin Chevalier",
   "copyright": "Copyright 2020 Kevin Chevalier",
@@ -10,7 +10,6 @@
     "url": "git@github.com:okebinda/base.webapp.reactjs.git"
   },
   "dependencies": {
-    "@ant-design/compatible": "1.0.1",
     "antd": "4.0.3",
     "axios": "0.19.2",
     "core-js": "3.6.4",

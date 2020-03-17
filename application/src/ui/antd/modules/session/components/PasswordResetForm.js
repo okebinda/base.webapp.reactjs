@@ -124,7 +124,7 @@ class PasswordResetForm extends Component {
                   {type: 'email', message: t('feedback_validation_email')}
                 ]}
               >
-                <Input />
+                <Input disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -136,7 +136,10 @@ class PasswordResetForm extends Component {
                   {required: true, message: t('feedback_validation_required')}
                 ]}
               >
-                <Input onChange={(e) => this.form.current.setFieldsValue({code: e.target.value.toUpperCase()})} />
+                <Input
+                  disabled={isSubmitting}
+                  onChange={(e) => this.form.current.setFieldsValue({code: e.target.value.toUpperCase()})}
+                />
               </Form.Item>
             </div>
 
@@ -157,7 +160,7 @@ class PasswordResetForm extends Component {
                   {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
                 ]}
               >
-                <Input type="password" />
+                <Input type="password" disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -170,7 +173,7 @@ class PasswordResetForm extends Component {
                   {validator: this.compareToFirstPassword}
                 ]}
               >
-                <Input type="password" />
+                <Input type="password" disabled={isSubmitting} />
               </Form.Item>
             </div>
 

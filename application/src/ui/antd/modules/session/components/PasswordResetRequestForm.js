@@ -114,7 +114,7 @@ class PasswordResetRequestForm extends Component {
                   {type: 'email', message: t('feedback_validation_email')}
                 ]}
               >
-                <Input />
+                <Input disabled={isSubmitting} />
               </Form.Item>
             </div>
 

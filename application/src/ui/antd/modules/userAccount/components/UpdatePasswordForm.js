@@ -18,8 +18,8 @@ class UpdatePasswordForm extends Component {
   // form column settings
   layout = {
     main: {
-      labelCol: {span: 10},
-      wrapperCol: {span: 14},
+      labelCol: {span: 8},
+      wrapperCol: {span: 16},
     },
     tail: {
       wrapperCol: {
@@ -27,8 +27,8 @@ class UpdatePasswordForm extends Component {
           span: 22,
         },
         sm: {
-          offset: 10,
-          span: 14,
+          offset: 8,
+          span: 16,
         },
       },
     }
@@ -114,7 +114,7 @@ class UpdatePasswordForm extends Component {
                   {required: true, message: t('feedback_validation_required')}
                 ]}
               >
-                <Input type="password" />
+                <Input type="password" disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -135,7 +135,7 @@ class UpdatePasswordForm extends Component {
                   {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
                 ]}
               >
-                <Input type="password" />
+                <Input type="password" disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -148,7 +148,7 @@ class UpdatePasswordForm extends Component {
                   {validator: this.compareToFirstPassword}
                 ]}
               >
-                <Input type="password"/>
+                <Input type="password" disabled={isSubmitting} />
               </Form.Item>
             </div>
 

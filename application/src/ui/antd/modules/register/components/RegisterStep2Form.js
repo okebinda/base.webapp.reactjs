@@ -115,7 +115,7 @@ class RegisterStep2Form extends Component {
                   {min: 1, max: 40, message: t('feedback_validation_length', {min: 1, max: 40})}
                 ]}
               >
-                <Input />
+                <Input disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -128,7 +128,7 @@ class RegisterStep2Form extends Component {
                   {min: 2, max: 40, message: t('feedback_validation_length', {min: 2, max: 40})}
                 ]}
               >
-                <Input />
+                <Input disabled={isSubmitting} />
               </Form.Item>
             </div>
 

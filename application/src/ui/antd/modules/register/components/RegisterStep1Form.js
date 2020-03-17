@@ -138,7 +138,7 @@ class RegisterStep1Form extends Component {
                   {pattern: /(?!^\d+$)^.+$/, message: t('feedback_validation_not_number')}
                 ]}
               >
-                <Input />
+                <Input disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -151,7 +151,7 @@ class RegisterStep1Form extends Component {
                   {type: 'email', message: t('feedback_validation_email')}
                 ]}
               >
-                <Input />
+                <Input disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -172,7 +172,7 @@ class RegisterStep1Form extends Component {
                   {pattern: /^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\d\W])|(?=.*\W)(?=.*\d))|(?=.*\W)(?=.*[A-Z])(?=.*\d)).{8,40}$/, message: t('feedback_validation_password_complexity')}
                 ]}
               >
-                <Input.Password />
+                <Input.Password disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -185,7 +185,7 @@ class RegisterStep1Form extends Component {
                   {validator: this.compareToFirstPassword}
                 ]}
               >
-                <Input.Password />
+                <Input.Password disabled={isSubmitting} />
               </Form.Item>
             </div>
 
@@ -203,7 +203,7 @@ class RegisterStep1Form extends Component {
                   }
                 ]}
               >
-                <Checkbox>
+                <Checkbox disabled={isSubmitting}>
                   {t('register_form1_input_tos')}
                 </Checkbox>
               </Form.Item>
