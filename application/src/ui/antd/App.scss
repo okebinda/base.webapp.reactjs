@@ -16,8 +16,8 @@ html, body, #root, #App {
 
 .screen-fade-enter-active {
   opacity: 1;
-  transition: opacity 200ms;
-  transition-delay: 250ms;
+  transition: opacity 250ms;
+  transition-delay: 150ms;
 }
 
 .screen-fade-exit {
@@ -27,5 +27,5 @@ html, body, #root, #App {
 .screen-fade-exit-active {
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 250ms, transform 200ms;
+  transition: opacity 150ms, transform 150ms;
 }
