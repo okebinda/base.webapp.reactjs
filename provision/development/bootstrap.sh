@@ -6,7 +6,7 @@
 #
 #  Development Bootstrap
 #
-#  Ubuntu 18.04
+#  Ubuntu 20.04
 #  https://www.ubuntu.com/
 #
 #  Packages:
@@ -14,7 +14,7 @@
 #   awscli
 #
 #  author: https://github.com/okebinda
-#  date: December, 2019
+#  date: July, 2020
 #
 ############################
 
@@ -26,10 +26,10 @@
 #################
 
 # get list of updates
-apt-get update
+apt update
 
 # update all software
-apt-get upgrade -y
+apt upgrade -y
 
 
 ####################
@@ -49,10 +49,10 @@ echo "
 #
 ################
 
-apt-get install vim tmux screen git zip -y
+apt install -y vim tmux screen git zip
 
 # install AWS command line interface
-apt-get install awscli -y
+apt install -y awscli
 
 
 ###############

@@ -95,4 +95,4 @@ There are currently no unit tests.
 | /provision          | Provision scripts for local virtual machine and production servers |
 | /tests              | Unit tests |
 | README.md           | This file |
-| Vagranfile          | Configuration file for Vagrant when provisioning local development virtual machine |
+| Vagrantfile         | Configuration file for Vagrant when provisioning local development virtual machine |
