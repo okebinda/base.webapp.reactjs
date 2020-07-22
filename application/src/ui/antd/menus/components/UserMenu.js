@@ -21,8 +21,10 @@ const UserMenu = (props) => {
   const [isLogoutConfirmModalVisible, setIsLogoutConfirmModalVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState(logoutCountdown);
 
-  const onLogoutClickHandler = () => {
+  const onLogoutClickHandler = (evt) => {
     Logger.log('debug', `UserMenu.onLogoutClickHandler()`);
+    // console.log("TEST: ", evt.domEvent);
+    // evt.domEvent.preventDefault();
     setTimeLeft(logoutCountdown);
     setIsLogoutConfirmModalVisible(true);
     modal.confirm({
@@ -76,7 +78,7 @@ const UserMenu = (props) => {
   return (
     <Translation>{(t) => 
       <ReachableContext.Provider value={timeLeft}>
-        <Menu selectable={false}>
+        <Menu selectable={false} onClick={() => props.clickHandler(false)}>
 
           <Menu.Item key="1">
             <Link to={pathTo('UserAccountScreen')}>

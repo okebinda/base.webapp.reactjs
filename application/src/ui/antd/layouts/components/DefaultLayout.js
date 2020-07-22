@@ -19,7 +19,8 @@ class DefaultLayout extends Component {
 
   state = {
     collapsed: false,
-    drawerVisible: false
+    drawerVisible: false,
+    userMenuVisible: false,
   };
 
   loading = () => <Loading />;
@@ -32,6 +33,10 @@ class DefaultLayout extends Component {
     this.setState((prevState) => ({
       drawerVisible: !prevState.drawerVisible
     }));
+  };
+
+  toggleUserMenu = flag => {
+    this.setState({ userMenuVisible: flag });
   };
 
   render() {
@@ -68,7 +73,13 @@ class DefaultLayout extends Component {
                     : <MenuFoldOutlined className="trigger" onClick={this.toggle} />
                   }
                   <div style={{float: 'right'}}>
-                    <Dropdown overlay={<UserMenu />} overlayStyle={{zIndex: 950}} trigger={['hover']}>
+                    <Dropdown
+                      overlay={<UserMenu clickHandler={this.toggleUserMenu.bind(this)} />}
+                      overlayStyle={{zIndex: 950}}
+                      trigger={['hover']}
+                      onVisibleChange={this.toggleUserMenu}
+                      visible={this.state.userMenuVisible}
+                    >
                       <Button>
                         <MenuOutlined />
                       </Button>
