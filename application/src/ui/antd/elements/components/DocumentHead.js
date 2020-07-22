@@ -6,7 +6,9 @@ import {Helmet} from 'react-helmet';
 export default function DocumentHead(props) {
   return (
     <Translation>{(t) =>
-      <Helmet title={props.title + ' | ' + t('app_name')} />
+      <Helmet>
+        <title>{props.title + ' | ' + t('app_name')}</title>
+      </Helmet>
     }</Translation>
   )
 }
