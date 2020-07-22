@@ -8,13 +8,14 @@ import RegisterStep1Form from '../containers/RegisterStep1FormContainer'
 import TermsOfServiceModal from '../containers/TermsOfServiceModalContainer';
 import DocumentHead from '../../../elements/components/DocumentHead';
 import {pathTo} from '../../../Routes';
+import Config from '../../../../../Config';
 import '../styles/Register.scss';
 
 class RegisterStep1Screen extends Component {
   render() {
 
     if (this.props.isAuthenticated) {
-      return <Redirect to={pathTo('DashboardScreen')} />;
+      return <Redirect to={pathTo(Config.get('DEFAULT_LOGIN_REDIRECT'))} />;
     }
     
     return (

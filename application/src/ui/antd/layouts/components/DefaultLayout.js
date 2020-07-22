@@ -68,7 +68,7 @@ class DefaultLayout extends Component {
                     : <MenuFoldOutlined className="trigger" onClick={this.toggle} />
                   }
                   <div style={{float: 'right'}}>
-                    <Dropdown overlay={<UserMenu />} trigger={['hover', 'click']}>
+                    <Dropdown overlay={<UserMenu />} overlayStyle={{zIndex: 950}} trigger={['hover']}>
                       <Button>
                         <MenuOutlined />
                       </Button>

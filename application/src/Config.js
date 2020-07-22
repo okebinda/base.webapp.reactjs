@@ -8,6 +8,7 @@ const Config = Map({
 
   LANGUAGES: ['en-US', 'es-MX'], // list of supported languages in four-letter format, default is first
   SESSION_TIMEOUT_COUNTDOWN: 60, // number of seconds to warn user before logging user out automatically
+  AUTO_LOGOUT_COUNTDOWN: 15, // number of seconds to automatically log a user out if they requested log out but didn't confirm
 
   DEFAULT_LOGIN_SCREEN: 'LoginScreen', // routing key for default login screen
   DEFAULT_LOGIN_REDIRECT: 'DashboardScreen', // routing key for screen to redirect user to after successful authentication

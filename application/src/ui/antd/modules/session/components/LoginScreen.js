@@ -7,6 +7,7 @@ import {pathTo} from '../../../Routes';
 import Logger from '../../../../../lib/Logger';
 import LoginForm from '../containers/LoginFormContainer'
 import DocumentHead from '../../../elements/components/DocumentHead';
+import Config from '../../../../../Config';
 import '../styles/Login.scss';
 
 class LoginScreen extends Component {
@@ -14,7 +15,7 @@ class LoginScreen extends Component {
   render() {
 
     if (this.props.isAuthenticated) {
-      return <Redirect to={pathTo('DashboardScreen')} />;
+      return <Redirect to={pathTo(Config.get('DEFAULT_LOGIN_REDIRECT'))} />;
     }
 
     return (
