@@ -5,3 +5,27 @@ html, body, #root, #App {
 .ant-card {
   margin-bottom: 15px;
 }
+
+
+// screen transitions
+
+.screen-fade-enter {
+  opacity: 0;
+  height: 0;
+}
+
+.screen-fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+  transition-delay: 250ms;
+}
+
+.screen-fade-exit {
+  opacity: 1;
+}
+
+.screen-fade-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 250ms, transform 200ms;
+}

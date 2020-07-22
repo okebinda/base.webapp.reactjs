@@ -1,12 +1,14 @@
-import React from 'react';
+// import React from 'react';
 import i18next from 'i18next';
 
 import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const RegisterStep1Screen = React.lazy(() => import('./containers/RegisterStep1ScreenContainer'));
-const RegisterStep2Screen = React.lazy(() => import('./components/RegisterStep2Screen'));
+import RegisterStep1Screen from './containers/RegisterStep1ScreenContainer';
+import RegisterStep2Screen from './components/RegisterStep2Screen';
+// const RegisterStep1Screen = React.lazy(() => import('./containers/RegisterStep1ScreenContainer'));
+// const RegisterStep2Screen = React.lazy(() => import('./components/RegisterStep2Screen'));
 
 const register = () => {
   Logger.log('debug', `register.register()`);

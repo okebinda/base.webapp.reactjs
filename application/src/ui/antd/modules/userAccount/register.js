@@ -1,11 +1,12 @@
-import React from 'react';
+// import React from 'react';
 import i18next from 'i18next';
 
 import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const UserAccountScreen = React.lazy(() => import('./containers/UserAccountScreenContainer'));
+// const UserAccountScreen = React.lazy(() => import('./containers/UserAccountScreenContainer'));
+import UserAccountScreen from './containers/UserAccountScreenContainer';
 
 const register = () => {
   Logger.log('debug', `userAccount.register()`);

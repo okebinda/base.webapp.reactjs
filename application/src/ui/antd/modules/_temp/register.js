@@ -1,11 +1,13 @@
-import React from 'react';
+// import React from 'react';
 
 import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const Temp1Screen = React.lazy(() => import('./components/Temp1Screen'));
-const Temp2Screen = React.lazy(() => import('./components/Temp2Screen'));
+import Temp1Screen from './components/Temp1Screen';
+import Temp2Screen from './components/Temp2Screen';
+// const Temp1Screen = React.lazy(() => import('./components/Temp1Screen'));
+// const Temp2Screen = React.lazy(() => import('./components/Temp2Screen'));
 
 const register = () => {
   Logger.log('debug', `_temp.register()`);

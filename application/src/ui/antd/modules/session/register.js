@@ -1,13 +1,16 @@
-import React from 'react';
+// import React from 'react';
 import i18next from 'i18next';
 
 import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const LoginScreen = React.lazy(() => import('./containers/LoginScreenContainer'));
-const PasswordResetRequestScreen = React.lazy(() => import('./components/PasswordResetRequestScreen'));
-const PasswordResetScreen = React.lazy(() => import('./components/PasswordResetScreen'));
+import LoginScreen from './containers/LoginScreenContainer';
+import PasswordResetRequestScreen from './components/PasswordResetRequestScreen';
+import PasswordResetScreen from './components/PasswordResetScreen';
+// const LoginScreen = React.lazy(() => import('./containers/LoginScreenContainer'));
+// const PasswordResetRequestScreen = React.lazy(() => import('./components/PasswordResetRequestScreen'));
+// const PasswordResetScreen = React.lazy(() => import('./components/PasswordResetScreen'));
 
 const register = () => {
   Logger.log('debug', `session.register()`);

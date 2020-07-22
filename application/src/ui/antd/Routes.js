@@ -2,6 +2,7 @@ import React from 'react';
 import {matchPath, Route, Switch} from 'react-router-dom';
 import {generatePath} from "react-router";
 import {Map} from 'immutable';
+import {TransitionGroup, CSSTransition} from "react-transition-group";
 
 import Logger from '../../lib/Logger';
 import Events from '../../lib/EventEmitter';
@@ -106,14 +107,22 @@ export function DefaultRoutes() {
 export function MainRoutes() {
   Logger.log('debug', `MainRoutes()`);
   return (
-    <Switch>
-      {mainRoutes.valueSeq().map((x, i) =>
-        'PrivateRoute' === x[0]
-          ? <PrivateRoute key={i} path={routePrefix + x[1]} exact={x[2]} component={x[3]} />
-          : <Route key={i} path={routePrefix + x[1]} exact={x[2]} component={x[3]} />)}
-      <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
-    </Switch>
-  )
+    <Route render={({location}) => {
+      return (
+        <TransitionGroup component={null}>
+          <CSSTransition key={location.key} in={false} timeout={250} classNames="screen-fade">
+            <Switch location={location}>
+              {mainRoutes.valueSeq().map((x, i) =>
+                'PrivateRoute' === x[0]
+                  ? <PrivateRoute key={i} path={routePrefix + x[1]} exact={x[2]} component={x[3]} />
+                  : <Route key={i} path={routePrefix + x[1]} exact={x[2]} component={x[3]} />)}
+              <Route render={() => (<div> Sorry, this page does not exist. </div>)} />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
+      )
+    }} />
+  );
 }
 
 Logger.log('silly', `Routes loaded.`);

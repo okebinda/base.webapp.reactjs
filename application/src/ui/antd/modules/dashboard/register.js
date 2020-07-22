@@ -1,11 +1,12 @@
-import React from 'react';
+// import React from 'react';
 import i18next from 'i18next';
 
 import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const DashboardScreen = React.lazy(() => import('./components/DashboardScreen'));
+import DashboardScreen from './components/DashboardScreen';
+// const DashboardScreen = React.lazy(() => import('./components/DashboardScreen'));
 
 const register = () => {
   Logger.log('debug', `dashboard.register()`);
