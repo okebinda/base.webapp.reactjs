@@ -45,7 +45,7 @@ class LoginForm extends Component {
     // create session
     this.props.createSession(payload, (success) => {
       if (success) {
-          this.setState({redirectToReferrer: true});
+          // this.setState({redirectToReferrer: true});  // disabled: LoginScreen handes any authenticated redirect
       } else {
         message.error(i18next.t('login_form_message_failure'));
       }
