@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import {Translation} from 'react-i18next';
 import {Col, PageHeader, Row, Steps} from 'antd';
 
@@ -11,6 +12,11 @@ import '../styles/Register.scss';
 
 class RegisterStep1Screen extends Component {
   render() {
+
+    if (this.props.isAuthenticated) {
+      return <Redirect to={pathTo('DashboardScreen')} />;
+    }
+    
     return (
       <Translation>{(t) => 
         <div className="screen screen-public screen-register">

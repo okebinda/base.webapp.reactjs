@@ -5,7 +5,7 @@ import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const LoginScreen = React.lazy(() => import('./components/LoginScreen'));
+const LoginScreen = React.lazy(() => import('./containers/LoginScreenContainer'));
 const PasswordResetRequestScreen = React.lazy(() => import('./components/PasswordResetRequestScreen'));
 const PasswordResetScreen = React.lazy(() => import('./components/PasswordResetScreen'));
 

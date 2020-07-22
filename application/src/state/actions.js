@@ -209,11 +209,13 @@ export function createSession(data, cb=function(){}) {
 
     // call API
     const response = await api.getToken(data.username, data.password);
+    let success = false;
 
     // get token success
     if (200 === response.get('status')) {
 
       Logger.log('info', `GET API token success. User: ${response.getIn(['data', 'user_id'])}`);
+      success = true;
 
       const sessionSuccessData = {
         authToken: response.getIn(['data', 'token']),
@@ -233,7 +235,7 @@ export function createSession(data, cb=function(){}) {
     }
 
     // callback function
-    cb();
+    cb(success);
   }
 }
 

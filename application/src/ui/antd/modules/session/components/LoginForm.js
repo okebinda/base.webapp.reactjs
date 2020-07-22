@@ -43,8 +43,8 @@ class LoginForm extends Component {
     Logger.log('debug', `LoginForm.submitCredentials()`);
 
     // create session
-    this.props.createSession(payload, () => {
-      if (this.props.success) {
+    this.props.createSession(payload, (success) => {
+      if (success) {
           this.setState({redirectToReferrer: true});
       } else {
         message.error(i18next.t('login_form_message_failure'));

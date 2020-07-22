@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import {Translation} from 'react-i18next';
 import {Col, PageHeader, Row} from 'antd';
 
+import {pathTo} from '../../../Routes';
 import Logger from '../../../../../lib/Logger';
 import LoginForm from '../containers/LoginFormContainer'
 import DocumentHead from '../../../elements/components/DocumentHead';
@@ -10,6 +12,11 @@ import '../styles/Login.scss';
 class LoginScreen extends Component {
 
   render() {
+
+    if (this.props.isAuthenticated) {
+      return <Redirect to={pathTo('DashboardScreen')} />;
+    }
+
     return (
       <Translation>{(t) => 
         <div className="screen screen-public screen-login">

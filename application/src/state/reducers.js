@@ -82,13 +82,16 @@ export function messages(
   }
 }
 
-const initialSessionState = Map({
+const initialSessionStateNoAuth = Map({
   isSubmitting: false,
   isPasswordResetCodeSubmitting: false,
   isPasswordResetSubmitting: false,
   form: null,
   passwordResetCodeForm: null,
-  passwordResetForm: null,
+  passwordResetForm: null
+});
+
+const initialSessionState = initialSessionStateNoAuth.mergeDeep({
   ...Auth.getSession()
 });
 
@@ -143,7 +146,7 @@ export function session(
       });
     
     case SESSION_DESTROY:
-      return initialSessionState;
+      return initialSessionStateNoAuth;
     
     case PASSWORD_RESET_CODE_REQUEST:
       return state.mergeDeep({

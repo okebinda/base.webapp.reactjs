@@ -5,7 +5,7 @@ import Config from '../../../../Config';
 import Logger from '../../../../lib/Logger';
 import Events from '../../../../lib/EventEmitter';
 
-const RegisterStep1Screen = React.lazy(() => import('./components/RegisterStep1Screen'));
+const RegisterStep1Screen = React.lazy(() => import('./containers/RegisterStep1ScreenContainer'));
 const RegisterStep2Screen = React.lazy(() => import('./components/RegisterStep2Screen'));
 
 const register = () => {
