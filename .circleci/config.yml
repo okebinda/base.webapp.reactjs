@@ -15,7 +15,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "application/package.json" }}
             - v1-dependencies-
 
       - run:
@@ -25,7 +25,7 @@ jobs:
             npm ci
 
       - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "application/Pipfile.lock" }}
+          key: v1-dependencies-{{ checksum "application/package.json" }}
           paths:
             - node_modules
             - ~/.npm 
