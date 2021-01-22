@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
 import {Button, Checkbox, Form, Input} from 'antd';
+import {CheckCircleOutlined} from '@ant-design/icons';
 
 import Logger from '../../../../../lib/Logger';
 import Config from '../../../../../Config';
@@ -133,6 +134,7 @@ class LoginForm extends Component {
                   type="primary"
                   className="login-button"
                   htmlType="submit"
+                  icon={<CheckCircleOutlined />}
                   loading={isSubmitting}
                 >
                   {t('login_form_button_submit')}

@@ -2,6 +2,7 @@ import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
 import {Button, Col, Form, Input, Row} from 'antd';
+import {CheckCircleOutlined} from '@ant-design/icons';
 
 import Logger from '../../../../../lib/Logger';
 import message from '../../../elements/lib/MessageWrapper';
@@ -182,9 +183,10 @@ class UserAccountForm extends Component {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  icon={<CheckCircleOutlined />}
                   loading={isSubmitting}
                 >
-                  {isSubmitting ? t('user_account_form_button_submit_in_process') : t('user_account_form_button_submit') }
+                  {t('action_submit')}
                 </Button>
               </Form.Item>
             </div>

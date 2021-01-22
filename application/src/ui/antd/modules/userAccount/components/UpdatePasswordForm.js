@@ -2,7 +2,7 @@ import React, {Component, createRef} from 'react';
 import i18next from 'i18next';
 import {Translation} from 'react-i18next';
 import {Button, Form, Input, Tooltip} from 'antd';
-import {QuestionCircleOutlined} from '@ant-design/icons';
+import {CheckCircleOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 
 import message from '../../../elements/lib/MessageWrapper';
 import Logger from '../../../../../lib/Logger';
@@ -157,9 +157,10 @@ class UpdatePasswordForm extends Component {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  icon={<CheckCircleOutlined />}
                   loading={isSubmitting}
                 >
-                  {isSubmitting ? t('password_form_button_submit_in_process') : t('password_form_button_submit') }
+                  {t('action_submit')}
                 </Button>
               </Form.Item>
             </div>

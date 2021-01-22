@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
 import {Button, Form, Input} from 'antd';
+import {CheckCircleOutlined} from '@ant-design/icons';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -124,9 +125,10 @@ class PasswordResetRequestForm extends Component {
                   type="primary"
                   htmlType="submit"
                   className="password-reset-request-button"
+                  icon={<CheckCircleOutlined />}
                   loading={isSubmitting}
                 >
-                  {isSubmitting ? t('password_reset_request_form_button_submit_in_process') : t('password_reset_request_form_button_submit') }
+                  {t('action_submit')}
                 </Button>
 
                 <span className="link-password-reset-step2">

@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom'
 import {Translation} from 'react-i18next';
 import i18next from 'i18next';
 import {Button, Form, Input} from 'antd';
+import {CheckCircleOutlined} from '@ant-design/icons';
 
 import {pathTo} from '../../../Routes';
 import message from '../../../elements/lib/MessageWrapper';
@@ -137,9 +138,10 @@ class RegisterStep2Form extends Component {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  icon={<CheckCircleOutlined />}
                   loading={isSubmitting}
                 >
-                  {isSubmitting ? t('register_form2_button_submit_in_process') : t('register_form2_button_submit') }
+                  {t('register_form2_button_submit')}
                 </Button>
               </Form.Item>
             </div>

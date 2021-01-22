@@ -1,7 +1,12 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {Menu, Modal, Progress} from 'antd';
-import {UserOutlined, LogoutOutlined} from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  UserOutlined,
+  LogoutOutlined
+} from '@ant-design/icons';
 import {Translation, getI18n} from 'react-i18next';
 
 import {pathTo} from '../../Routes';
@@ -23,14 +28,12 @@ const UserMenu = (props) => {
 
   const onLogoutClickHandler = (evt) => {
     Logger.log('debug', `UserMenu.onLogoutClickHandler()`);
-    // console.log("TEST: ", evt.domEvent);
-    // evt.domEvent.preventDefault();
     setTimeLeft(logoutCountdown);
     setIsLogoutConfirmModalVisible(true);
     modal.confirm({
-      title: getI18n().t('confirm_alert_logout_title'),
+      title: getI18n().t('session_confirm_alert_logout_title'),
       content:  <>
-                  {getI18n().t('confirm_alert_logout_body')}
+                  {getI18n().t('session_confirm_alert_logout_body')}
                   <ReachableContext.Consumer>
                     {timeLeft => 
                       <Progress
@@ -48,8 +51,14 @@ const UserMenu = (props) => {
         setIsLogoutConfirmModalVisible(false);
       },
       maskClosable: false,
-      okText: getI18n().t('confirm_alert_yes'),
-      cancelText: getI18n().t('confirm_alert_cancel')
+      okText: getI18n().t('confirm_yes'),
+      okButtonProps: {
+        icon: <CheckCircleOutlined />
+      },
+      cancelText: getI18n().t('confirm_cancel'),
+      cancelButtonProps: {
+        icon: <CloseCircleOutlined />
+      },
     });
   }
 
