@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+
+    docker:
+      - image: cimg/node:14.15.4
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: |
+            cd application
+            npm ci
+
+      - save_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "application/Pipfile.lock" }}
+          paths:
+            - node_modules
+            - ~/.npm 
+            - ~/.cache
+      
+      # - run:
+      #     name: Build package
+      #     command: |
+      #       npm ci
+
+      
+
+workflows:
+  build-and-test-app:
+    jobs:
+
+      # all commits run unit tests
+      - build-and-test:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
