@@ -9,7 +9,7 @@ import TermsOfServiceModal from '../containers/TermsOfServiceModalContainer';
 import DocumentHead from '../../../elements/components/DocumentHead';
 import {pathTo} from '../../../Routes';
 import Config from '../../../../../Config';
-import '../styles/Register.scss';
+import '../styles/Register.less';
 
 class RegisterStep1Screen extends Component {
   render() {

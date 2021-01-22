@@ -10,7 +10,7 @@ import UserMenu from '../../menus/containers/UserMenuContainer';
 import Loading from '../../elements/components/Loading';
 import Breadcrumbs from '../../elements/components/Breadcrumbs';
 
-import '../styles/DefaultLayout.scss';
+import '../styles/DefaultLayout.less';
 
 const {Header, Content, Footer, Sider} = Layout;
 

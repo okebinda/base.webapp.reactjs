@@ -22,7 +22,7 @@ $ ./scripts/build.sh
 Also, to access the web application from your host machine you should update your local DNS to point the development domain to the virtual machine's IP address. For example, on a Mac/Linux box you can update your `/etc/hosts` file with the following line:
 
 ```
-172.29.17.202 base.webapp.reactjs.vm
+172.29.17.206 base.webapp.reactjs.vm
 ```
 
 ### Start Virtual Machine

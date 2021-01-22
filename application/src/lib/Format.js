@@ -1,9 +1,14 @@
-import formatNum from 'format-num'
-import formatCurrency from 'format-currency'
-import dateformat from 'dateformat'
+import formatNum from 'format-num';
+import formatCurrency from 'format-currency';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
 
 import Logger from './Logger';
 import Config from '../Config';
+
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
 
 // default formatting options
 const options = {
@@ -12,6 +17,26 @@ const options = {
   percent: {style: 'percent', fractionDigits: 2},
   date: {format: Config.get('DEFAULT_DATE_FORMAT', 'mm/dd/yyyy')}
 };
+
+const reISO8601 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{4}$/;
+
+dayjs.updateLocale('en', {
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: 'a few seconds',
+    m: "a minute",
+    mm: "%d minutes",
+    h: "an hour",
+    hh: "%d hours",
+    d: "a day",
+    dd: "%d days",
+    M: "a month",
+    MM: "%d months",
+    y: "a year",
+    yy: "%d years"
+  }
+});
 
 const _truncateNumbers = function(num, digits) {
   var si = [
@@ -68,11 +93,53 @@ const Format = {
     return formatNum(value * 100, opts) + '%';
   },
 
-  // formate date
-  date: function(value, formatIn) {
+  // format date
+  date: function(value, formatIn, utc=false) {
     Logger.log('debug', `Format.date(${value}, ${formatIn})`);
-    const format = formatIn ? formatIn : options.date.format;
-    return value ? dateformat(value, format, true) : null;
+    if (value) {
+      const format = formatIn ? formatIn : options.date.format;
+      return typeof value === 'string' && reISO8601.test(value)
+        ? dayjs(value, 'YYYY-MM-DDTHH:mm:ssZZ').format(format) // safari hack - doesn't support '-', only '/'
+        : dayjs(value).format(format);
+    }
+    return null;
+  },
+
+  // format date relative from now
+  relativeDate: function(value, removeAgo=false) {
+    Logger.log('debug', `Format.relativeDate(${value})`);
+    if (value) {
+      return typeof value === 'string' && reISO8601.test(value)
+        ? dayjs(value, 'YYYY-MM-DDTHH:mm:ssZZ').fromNow(removeAgo) // safari hack - doesn't support '-', only '/'
+        : dayjs(value).fromNow(removeAgo);
+    }
+    return null;
+  },
+
+  // format telephone number
+  telephone: function(value) {
+    let output = value
+    const allDigitsValue = value.replace(/\D/g, '');
+    if (allDigitsValue.length === 10) {
+      output = allDigitsValue.substring(0, 3) + '-' + allDigitsValue.substring(3, 6) + '-' + allDigitsValue.substring(6);
+    }
+    else if (allDigitsValue.length === 7) {
+      output = allDigitsValue.substring(0, 3) + '-' + allDigitsValue.substring(3);
+    }
+    return output;
+  },
+
+  // truncate string
+  truncate: function(value, len, extra='...') {
+    if (typeof value === 'string' && value.length > len) {
+      return value.substring(0, len) + extra;
+    }
+    return value;
+  },
+
+  // strip tags from string
+  stripTags: function(value) {
+    return value.replace(/<\/?[^>]+(>|$)/g, "");
   }
 }
 

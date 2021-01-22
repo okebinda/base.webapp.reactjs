@@ -9,9 +9,9 @@ import Loading from './elements/components/Loading';
 import SessionTimeoutModal from './modules/session/containers/SessionTimeoutModalContainer';
 import withSplashScreen from './elements/containers/withSplashScreenContainer';
 
-import 'antd/dist/antd.css';
-// import 'antd/dist/antd.dark.css'; // enable dark mode
-import './App.scss';
+import 'antd/dist/antd.less';
+// import 'antd/dist/antd.dark.less'; // enable dark mode
+import './App.less';
 
 // register modules
 Config.get('MODULE_TOGGLES').keySeq().forEach(k => {

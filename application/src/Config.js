@@ -17,8 +17,10 @@ const Config = Map({
   DEFAULT_AUTH_STORAGE: 'session', // session, local
   DEFAULT_LIST_LENGTH: 10,
   DEFAULT_MESSAGE_TIMEOUT: 4, // number of seconds to show status messages - such as success/failure to update a record
-  DEFAULT_DATE_FORMAT: 'mm/dd/yyyy',
-  DEFAULT_DATETIME_FORMAT: 'mm/dd/yyyy HH:mm:ss Z',
+  DEFAULT_DATE_FORMAT: 'MM/DD/YYYY',
+  DEFAULT_DATETIME_FORMAT: 'MM/DD/YYYY h:mm A',
+
+  API_DATETIME_FORMAT: 'YYYY-MM-DDTHH:mm:ssZZ',
   
   MODULE_TOGGLES: Map({
     'session': {'enabled': true, 'routes': true},

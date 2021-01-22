@@ -8,7 +8,7 @@ import Logger from '../../../../../lib/Logger';
 import LoginForm from '../containers/LoginFormContainer'
 import DocumentHead from '../../../elements/components/DocumentHead';
 import Config from '../../../../../Config';
-import '../styles/Login.scss';
+import '../styles/Login.less';
 
 class LoginScreen extends Component {
 

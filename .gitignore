@@ -7,6 +7,5 @@ __pycache__
 application/env/
 application/node_modules/
 application/build/
-package-lock.json
 npm-debug.log
 ubuntu-bionic-18.04-cloudimg-console.log

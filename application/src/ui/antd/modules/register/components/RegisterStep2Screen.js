@@ -6,7 +6,7 @@ import Logger from '../../../../../lib/Logger';
 import RegisterStep2Form from '../containers/RegisterStep2FormContainer'
 import DocumentHead from '../../../elements/components/DocumentHead';
 import {pathTo} from '../../../Routes';
-import '../styles/Register.scss';
+import '../styles/Register.less';
 
 class RegisterStep2Screen extends Component {
 

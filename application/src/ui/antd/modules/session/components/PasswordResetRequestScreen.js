@@ -6,7 +6,7 @@ import Logger from '../../../../../lib/Logger';
 import PasswordResetRequestForm from '../containers/PasswordResetRequestFormContainer';
 import {pathTo} from '../../../Routes';
 import DocumentHead from '../../../elements/components/DocumentHead';
-import '../styles/PasswordReset.scss';
+import '../styles/PasswordReset.less';
 
 class PasswordResetRequestScreen extends Component {
   render() {

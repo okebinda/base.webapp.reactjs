@@ -22,6 +22,7 @@ import {
   PASSWORD_RESET_FORM_DESTROY
 } from './actions';
 import ui from './ui/reducers';
+import extend from '../lib/Extend';
 import Config from '../Config';
 import Logger from '../lib/Logger';
 import Auth from '../lib/Auth';
@@ -41,7 +42,7 @@ export function entities(
       for (var key in action.payload.entities) {
         tempState[key] = {...state.get(key, {}), ...action.payload.entities[key]};
       }
-      return state.merge(tempState);
+      return Map(extend(true, state.toJS(), tempState));
 
     case REMOVE_ENTITY:
       return state.deleteIn([action.payload.entityType, action.payload.id]);
