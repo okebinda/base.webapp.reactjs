@@ -16,7 +16,6 @@
     "core-js": "3.8.3",
     "craco-less": "1.17.1",
     "dayjs": "1.10.3",
-    "format-currency": "1.0.0",
     "i18next": "19.8.4",
     "immutable": "4.0.0-rc.12",
     "normalizr": "3.6.1",

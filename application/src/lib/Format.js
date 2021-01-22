@@ -1,5 +1,3 @@
-import formatNum from 'format-num';
-import formatCurrency from 'format-currency';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -12,8 +10,9 @@ dayjs.extend(updateLocale);
 
 // default formatting options
 const options = {
+  locales: 'en-US',
   number: {fractionDigits: 0},
-  currency: {format: '%s%v', symbol: '$'},
+  currency: {currency: 'USD', symbol: '$'},
   percent: {style: 'percent', fractionDigits: 2},
   date: {format: Config.get('DEFAULT_DATE_FORMAT', 'mm/dd/yyyy')}
 };
@@ -56,32 +55,37 @@ const _truncateNumbers = function(num, digits) {
   return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
 }
 
+var currencyFormatter = new Intl.NumberFormat(options.locales, {
+  style: 'currency',
+  currency: options.currency.currency,
+});
+
 const Format = {
 
   // format number
   number: function(value, fractionDigits, truncate=false) {
     Logger.log('debug', `Format.number(${value}, ${fractionDigits})`);
-    const opts = {
+    var numberFormatter = new Intl.NumberFormat(options.locales, {
       maximumFractionDigits: Number.isInteger(fractionDigits)
         ? fractionDigits
         : options.number.fractionDigits,
       minimumFractionDigits: Number.isInteger(fractionDigits)
         ? fractionDigits
         : options.number.fractionDigits
-    };
-    return truncate ? _truncateNumbers(value, fractionDigits) : formatNum(value, opts);
+    });
+    return truncate ? _truncateNumbers(value, fractionDigits) : numberFormatter.format(value);
   },
 
   // format currency
   currency: function(value, truncate=false) {
     Logger.log('debug', `Format.currency(${value})`);
-    return truncate ? options.currency.symbol + _truncateNumbers(value, 1) : formatCurrency(value, options.currency);
+    return truncate ? options.currency.symbol + _truncateNumbers(value, 1) : currencyFormatter.format(value);
   },
 
   // format percent
   percent: function(value, fractionDigits) {
     Logger.log('debug', `Format.percent(${value}, ${fractionDigits})`);
-    const opts = {
+    var percentFormatter = new Intl.NumberFormat(options.locales, {
       style: options.percent.style,
       maximumFractionDigits: Number.isInteger(fractionDigits)
         ? fractionDigits
@@ -89,8 +93,8 @@ const Format = {
       minimumFractionDigits: Number.isInteger(fractionDigits)
         ? fractionDigits
         : options.percent.fractionDigits
-    };
-    return formatNum(value * 100, opts) + '%';
+    });
+    return percentFormatter.format(value);
   },
 
   // format date
