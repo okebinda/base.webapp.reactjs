@@ -32,9 +32,19 @@
     "winston": "3.3.3"
   },
   "devDependencies": {
+    "@babel/cli": "7.12.10",
+    "@babel/core": "7.12.10",
+    "@babel/node": "7.12.10",
+    "@babel/plugin-transform-react-jsx": "7.12.12",
+    "@babel/preset-env": "7.12.11",
+    "@babel/preset-react": "7.12.10",
+    "@babel/register": "7.12.10",
+    "@wojtekmaj/enzyme-adapter-react-17": "0.4.1",
+    "babel-plugin-import": "1.13.3",
+    "chai": "4.2.0",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.6",
-    "react-test-renderer": "17.0.1",
+    "jsdom": "16.4.0",
+    "mocha": "8.2.1",
     "react-scripts": "4.0.1"
   },
   "scripts": {
@@ -43,9 +53,7 @@
     "build:dev": "REACT_APP_ENV=dev npm run build",
     "build:qa": "REACT_APP_ENV=qa npm run build",
     "build:production": "REACT_APP_ENV=production npm run build",
-    "test": "craco test",
-    "test:cov": "craco test --coverage",
-    "test:debug": "craco --inspect-brk test --runInBand",
+    "test": "npx mocha --require @babel/register --recursive test/unit/",
     "eject": "craco eject",
     "touch": "find ./src -exec touch {} \\;"
   },

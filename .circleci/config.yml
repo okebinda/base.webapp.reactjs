@@ -16,7 +16,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "application/package.json" }}
-            - v1-dependencies-
 
       - run:
           name: Install dependencies
@@ -28,15 +27,13 @@ jobs:
           key: v1-dependencies-{{ checksum "application/package.json" }}
           paths:
             - node_modules
-            - ~/.npm 
+            - ~/.npm
             - ~/.cache
       
-      # - run:
-      #     name: Build package
-      #     command: |
-      #       npm ci
-
-      
+      - run:
+          name: Run unit tests
+          command: |
+            npm test
 
 workflows:
   build-and-test-app:
