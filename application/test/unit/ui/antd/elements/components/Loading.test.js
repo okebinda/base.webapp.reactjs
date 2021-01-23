@@ -14,6 +14,6 @@ Enzyme.configure({ adapter: new Adapter() });
 describe("Loading", () => {
   it("should contain one <Spin />", () => {
     const wrapper = Enzyme.mount(<Loading />);
-    expect(wrapper.find(Spin)).to.have.length(1);
+    expect(wrapper.find(Spin)).to.have.length(2);
   });
 });
