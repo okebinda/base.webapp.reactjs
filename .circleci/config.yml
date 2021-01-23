@@ -33,6 +33,7 @@ jobs:
       - run:
           name: Run unit tests
           command: |
+            cd application
             npm test
 
 workflows:
