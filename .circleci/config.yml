@@ -15,16 +15,16 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "application/package-lock.json" }}
+            - node-dependencies-v1-{{ .Branch }}-{{ checksum "application/package-lock.json" }}
 
       - run:
           name: Install dependencies
           command: |
             cd application
-            npm ci
+            npm install
 
       - save_cache:
-          key: v1-dependencies-{{ checksum "application/package-lock.json" }}
+          key: node-dependencies-v1-{{ .Branch }}-{{ checksum "application/package-lock.json" }}
           paths:
             - application/node_modules
             - ~/.npm
