@@ -78,11 +78,11 @@ jobs:
           name: Create package
           command: |
             cd application/build
-            zip -ry9 ~/$PROJECT_NAME-dev.<< pipeline.git.revision >>.zip *
+            zip -ry9 ~/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip *
       
       - aws-s3/copy:
-          from: ~/$PROJECT_NAME-dev.<< pipeline.git.revision >>.zip
-          to: 's3://$AWS_S3_PACKAGE_BUCKET'
+          from: ~/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip
+          to: 's3://${AWS_S3_PACKAGE_BUCKET}'
 
 workflows:
   build-and-test-app:
