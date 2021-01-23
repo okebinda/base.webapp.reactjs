@@ -1,7 +1,10 @@
 version: 2.1
 
+orbs:
+  aws-s3: circleci/aws-s3@2.0.0
+
 jobs:
-  build-and-test:
+  unit-tests:
 
     docker:
       - image: cimg/node:14.15.4
@@ -35,15 +38,70 @@ jobs:
           command: |
             cd application
             npm test
+  
+  build-dev:
+
+    docker:
+      - image: cimg/node:14.15.4
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          keys:
+            - node-dependencies-v1-{{ .Branch }}-{{ checksum "application/package-lock.json" }}
+
+      - run:
+          name: Install dependencies
+          command: |
+            cd application
+            npm install
+
+      - save_cache:
+          key: node-dependencies-v1-{{ .Branch }}-{{ checksum "application/package-lock.json" }}
+          paths:
+            - application/node_modules
+            - ~/.npm
+            - ~/.cache
+      
+      - run:
+          name: Build dev
+          command: |
+            cd application
+            npm run build:dev
+      
+      - run:
+          name: Create package
+          command: |
+            cd application/build
+            zip -ry9 ~/base.webapp.reactjs-dev.{{ .Revision }}.zip *
+      
+      - aws-s3/copy:
+          from: ~/base.webapp.reactjs-dev.{{ .Revision }}.zip
+          to: 's3://code.kchevalier.com'
 
 workflows:
   build-and-test-app:
     jobs:
 
       # all commits run unit tests
-      - build-and-test:
+      - unit-tests:
           filters:
             tags:
               only: /.*/
             branches:
               only: /.*/
+      
+      # dev branch commits always create a new dev package
+      - build-dev:
+          requires:
+            - unit-tests
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: dev
