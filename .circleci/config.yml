@@ -78,10 +78,10 @@ jobs:
           name: Create package
           command: |
             cd application/build
-            zip -ry9 ~/base.webapp.reactjs-dev.{{ .Revision }}.zip *
+            zip -ry9 ~/base.webapp.reactjs-dev.<< pipeline.git.revision >>.zip *
       
       - aws-s3/copy:
-          from: ~/base.webapp.reactjs-dev.{{ .Revision }}.zip
+          from: ~/base.webapp.reactjs-dev.<< pipeline.git.revision >>.zip
           to: 's3://code.kchevalier.com'
 
 workflows:
