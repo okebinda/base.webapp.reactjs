@@ -26,13 +26,14 @@ jobs:
       - save_cache:
           key: v1-dependencies-{{ checksum "application/package.json" }}
           paths:
-            - node_modules
-            - ~/.npm
-            - ~/.cache
+            - application/node_modules
+            - application/.npm
+            - application/.cache
       
       - run:
           name: Run unit tests
           command: |
+            cd application
             npm test
 
 workflows:
