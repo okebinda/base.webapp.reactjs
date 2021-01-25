@@ -82,7 +82,7 @@ jobs:
       
       - aws-s3/copy:
           from: ~/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip
-          to: 's3://${AWS_S3_PACKAGE_BUCKET}/${PROJECT_NAME}'
+          to: 's3://${AWS_S3_PACKAGE_BUCKET}/${PROJECT_NAME}/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip'
 
 workflows:
   build-and-test-app:
