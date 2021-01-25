@@ -181,4 +181,4 @@ workflows:
             tags:
               only: /^release-.*/
             branches:
-              only: main
+              ignore: /.*/
