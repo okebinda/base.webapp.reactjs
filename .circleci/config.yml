@@ -82,7 +82,74 @@ jobs:
       
       - aws-s3/copy:
           from: ~/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip
-          to: 's3://${AWS_S3_PACKAGE_BUCKET}/${PROJECT_NAME}/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip'
+          to: 's3://${AWS_S3_PACKAGE_BUCKET}/${PROJECT_NAME}/dev/${PROJECT_NAME}-dev.<< pipeline.git.revision >>.zip'
+
+  build-release:
+
+    docker:
+      - image: cimg/node:14.15.4
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+
+      - checkout
+
+      - restore_cache:
+          keys:
+            - node-dependencies-v1-{{ .Branch }}-{{ checksum "application/package-lock.json" }}
+
+      - run:
+          name: Install dependencies
+          command: |
+            cd application
+            npm install
+
+      - save_cache:
+          key: node-dependencies-v1-{{ .Branch }}-{{ checksum "application/package-lock.json" }}
+          paths:
+            - application/node_modules
+            - ~/.npm
+            - ~/.cache
+      
+      - run:
+          name: Build qa
+          command: |
+            cd application
+            npm run build:qa
+      
+      - run:
+          name: Create package
+          command: |
+            cd application/build
+            zip -ry9 ~/${PROJECT_NAME}-qa.<< pipeline.git.tag >>.zip *
+      
+      - aws-s3/copy:
+          from: ~/${PROJECT_NAME}-qa.<< pipeline.git.revision >>.zip
+          to: 's3://${AWS_S3_PACKAGE_BUCKET}/${PROJECT_NAME}/qa/${PROJECT_NAME}-qa.<< pipeline.git.tag >>.zip'
+      
+      - run:
+          name: Cleanup QA build
+          command: |
+            cd application
+            rm -rf build
+      
+      - run:
+          name: Build production
+          command: |
+            cd application
+            npm run build:production
+      
+      - run:
+          name: Create package
+          command: |
+            cd application/build
+            zip -ry9 ~/${PROJECT_NAME}-production.<< pipeline.git.tag >>.zip *
+      
+      - aws-s3/copy:
+          from: ~/${PROJECT_NAME}-production.<< pipeline.git.revision >>.zip
+          to: 's3://${AWS_S3_PACKAGE_BUCKET}/${PROJECT_NAME}/production/${PROJECT_NAME}-production.<< pipeline.git.tag >>.zip'
 
 workflows:
   build-and-test-app:
@@ -105,3 +172,13 @@ workflows:
               only: /.*/
             branches:
               only: dev
+      
+      # release tags create a new qa/prod package
+      - build-release:
+          requires:
+            - unit-tests
+          filters:
+            tags:
+              only: /^release-.*/
+            branches:
+              only: main
