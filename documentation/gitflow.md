@@ -11,7 +11,7 @@ The recommended gitflow for this project is as follows:
 * Feature branches should be merged into the `dev` for user testing
 * Feature branches should be merged into the `main` branch for QA/Prod deployment
 * Feature branches should be removed once successfully deployed to Prod
-* The `dev` should be rebased to `main` from time-to-time to keep it clean
+* The `dev` should be reset to `main` from time-to-time to keep it clean
 * Releases for QA/Prod must be based on the `main` branch, and tagged with 'release-*.*.*' using major-minor-revision notation
 
 ## Starting a New Feature
@@ -46,4 +46,12 @@ $ git push origin <release-tag>
 ```ssh
 $ git push -d origin <feature-name>
 $ git branch -d <feature-name>
+```
+
+## Reset Dev Branch to Main
+
+```ssh
+$ git checkout dev
+$ git fetch origin
+$ git reset --hard main
 ```
