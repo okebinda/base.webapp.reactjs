@@ -36,7 +36,9 @@ Release tags should use semantic versioning, following the format: 'release-*.*.
 
 ```ssh
 $ git checkout main
-$ git merge --squash <feature-name> -m <commit-message>
+$ git merge --squash <feature-name>
+$ git commit -m <commit-message>
+$ git push origin
 $ git tag -a <release-tag> -m <tag-message>
 $ git push origin <release-tag>
 ```
