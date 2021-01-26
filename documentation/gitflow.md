@@ -19,7 +19,6 @@ The recommended gitflow for this project is as follows:
 ```ssh
 $ git checkout main
 $ git checkout -b <feature-name>
-$ git push origin <feature-name>
 $ git push --set-upstream origin <feature-name>
 ```
 
