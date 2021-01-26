@@ -24,7 +24,7 @@ $ git push --set-upstream origin <feature-name>
 
 ## Testing a Feature on Dev
 
-Release tags should use semantic versioning, following the format: 'release-*.*.*'.
+Release tags should use semantic versioning, following the format: 'release-*.*.*' (major.minor.revision).
 
 ```ssh
 $ git checkout dev
