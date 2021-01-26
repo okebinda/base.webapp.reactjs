@@ -28,19 +28,17 @@ Release tags should use semantic versioning, following the format: 'release-*.*.
 
 ```ssh
 $ git checkout dev
-$ git merge <feature-name>
-$ git commit -m <commit-message>
-$ git tag -a <release-tag> -m <tag-message>
-$ git push origin <release-tag>
+$ git merge <feature-name> -m <commit-message>
+$ git push origin
 ```
 
 ## Creating a New Feature Release
 
 ```ssh
 $ git checkout main
-$ git merge --squash <feature-name>
-$ git commit -m <commit-message>
-$ git push origin
+$ git merge --squash <feature-name> -m <commit-message>
+$ git tag -a <release-tag> -m <tag-message>
+$ git push origin <release-tag>
 ```
 
 ## Removing an Old Feature Branch
