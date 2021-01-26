@@ -24,7 +24,6 @@ $ git push --set-upstream origin <feature-name>
 
 ## Testing a Feature on Dev
 
-
 ```ssh
 $ git checkout dev
 $ git merge <feature-name> -m <commit-message>
