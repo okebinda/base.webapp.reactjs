@@ -169,7 +169,7 @@ workflows:
             - unit-tests
           filters:
             tags:
-              only: /.*/
+              ignore: /.*/
             branches:
               only: dev
       
