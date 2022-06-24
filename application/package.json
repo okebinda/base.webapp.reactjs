@@ -43,7 +43,7 @@
     "babel-plugin-import": "1.13.3",
     "chai": "4.2.0",
     "enzyme": "3.11.0",
-    "jsdom": "16.4.0",
+    "jsdom": "16.5.0",
     "mocha": "8.2.1",
     "react-scripts": "4.0.1"
   },
