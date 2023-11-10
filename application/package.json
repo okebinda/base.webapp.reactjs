@@ -12,7 +12,7 @@
   "dependencies": {
     "@craco/craco": "6.0.0",
     "antd": "4.10.3",
-    "axios": "0.21.1",
+    "axios": "1.6.0",
     "core-js": "3.8.3",
     "craco-less": "1.17.1",
     "dayjs": "1.10.3",
